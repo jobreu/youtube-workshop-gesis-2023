@@ -16,20 +16,16 @@ x
 ```
 
 
-```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Please install and/or load the `woRkshoptools` package.
 ```
 
-```{block, opts.label = "clues"}
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
 We always recommend using the `easypackages` packages, which can be installed with the command `install.packages("easypackages")`. After loading the package with `library(easypackages)` you can load *and* install packages (if necessary) with one command: `easypackages::packages("fancy_package_1", "fancy_package_2", ...)`
 ```
 
-```{r first.exercise, solution = TRUE}
+```{block, box.title = "Solution 1", solution = TRUE, box.icon = "fa-check"}
 easypackages::packages(
   "StefanJuenger/woRkshoptools"
 )
 ```
-
-
-
-
