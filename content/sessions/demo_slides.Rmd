@@ -7,7 +7,7 @@ presenter: Stefan
 ---
 layout: true
 
-```{r child = "../config/sessions_setup.Rmd"}
+```{r child = "./content/config/sessions_setup.Rmd"}
 ```
 
 <!-- START HERE WITH SLIDES -->
@@ -24,10 +24,4 @@ x
 ```
 
 <!-- STOP WITH SLIDES HERE -->
-
----
-
-```{r child = "../config/sessions_end.Rmd"}
-```
-
 
