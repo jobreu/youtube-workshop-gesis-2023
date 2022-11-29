@@ -4,7 +4,7 @@ author: 'Cute Cat'
 date: 'This is not really a date but a title of your course'
 ---
 
-```{r child = "../config/exercises_setup.Rmd"}
+```{r child = "content/config/exercises_setup.Rmd"}
 ```
 
 
