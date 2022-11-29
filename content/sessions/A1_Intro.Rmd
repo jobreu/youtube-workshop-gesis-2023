@@ -16,7 +16,7 @@ output:
 
 layout: true
 
-```{r child = "../config/sessions_setup.Rmd"}
+```{r child = "./content/config/sessions_setup.Rmd"}
 ```
 
 ---
@@ -178,7 +178,7 @@ If you want a short primer (or need a quick refresher) on the `tidyverse`, you c
 Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
 
 ```{r cases, out.width = "75%"}
-include_graphics("./images/camel_snake_kebab.jpg")
+include_graphics("./content/img/camel_snake_kebab.jpg")
 ```
 .center[
 <small><small>Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)</small></small>
@@ -395,8 +395,3 @@ citation("tuber")
 class: center, middle
 
 # Any questions so far?
-
----
-
-```{r child = "../config/sessions_end.Rmd"}
-```
