@@ -1,7 +1,7 @@
 # Workshop "Automatic Sampling and Analysis of YouTube Comments", GESIS 2023
 Materials for the 2023 *GESIS Training* workshop "Automatic Sampling and Analysis of YouTube Comments"
 
-[Johannes Breuer](https://www.johannesbreuer.com/) ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09)); [Annika Deubel](https://www.cais-research.de/team/annika-deubel/) ([annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de), [\@anndeub](https://twitter.com/anndeub)); [M. Rohangis Mohseni](https://www.tu-ilmenau.de/en/media-psychology-and-media-design/team/dr-rohangis-mohseni/) ([Rohangis.Mohseni@tu-ilmenau.de](mailto:Rohangis.Mohseni@tu-ilmenau.de), [\@romohseni](https://twitter.com/romohseni))
+[Johannes Breuer](https://www.johannesbreuer.com/) ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09)); [Annika Deubel](https://www.cais-research.de/team/annika-deubel/) ([annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de), [\@anndeub](https://twitter.com/anndeub)); [M. Rohangis Mohseni](https://www.researchgate.net/profile/M-Mohseni) ([Rohangis.Mohseni@tu-ilmenau.de](mailto:Rohangis.Mohseni@tu-ilmenau.de), [\@romohseni](https://twitter.com/romohseni))
 
 [![](https://licensebuttons.net/l/by/3.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/) 
 Please link to the [workshop GitHub repository](https://github.com/jobreu/youtube-workshop-gesis-2023)
@@ -58,4 +58,4 @@ For the exercises as well as for "coding along" with the slides, access to the *
 
 ## Acknowledgements
 
-Parts of the content have been developed by [Julian Kohne](https://www.juliankohne.com/) for a previous version of this workshop.
+Parts of the content have been developed by [Julian Kohne](https://www.juliankohne.com/) for a previous version of this workshop. The materials (slides, exercises, etc.) have been using the `R` packages [`xaringan`](https://github.com/yihui/xaringan), [`unilur`](https://koncina.github.io/unilur/), and [`woRkshoptools`](https://github.com/StefanJuenger/woRkshoptools).
