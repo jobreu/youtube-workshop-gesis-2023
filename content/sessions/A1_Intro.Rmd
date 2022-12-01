@@ -1,17 +1,10 @@
 ---
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Introduction"
-author: "Johannes Breuer<br />Annika Deubel<br />M. Rohangis Mohseni"
+author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 presenter: Everybody
-output:
-  xaringan::moon_reader:
-    lib_dir: libs
-    css: ["default", "default-fonts", "../workshop.css"]
-    nature:
-      highlightStyle: "github"
-      highlightLines: true
-      countIncrementalSlides: false
+
 ---
 
 layout: true
@@ -34,14 +27,20 @@ After this course you should be able to...
 
 ### Johannes Breuer
 
-.small[
 - Senior researcher in the team *Data Augmentation* in the department *Survey Data Curation* at *GESIS*
     - digital trace data for social science research
     - data linking (surveys + digital trace data) 
     
 - (Co-) Team leader of the team *Research Data & Methods* at the *Center for Advanced Internet Studies* (CAIS)
     
-- Ph.D. in Psychology, University of Cologne  
+- Ph.D. in Psychology, University of Cologne
+
+
+---
+
+## About us
+
+### Johannes Breuer
 
 - Previously worked in several research projects investigating the use and effects of digital media (Cologne, Hohenheim, Münster, Tübingen)  
 
@@ -51,7 +50,6 @@ After this course you should be able to...
     - Open science
 
 [johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09), [personal website](https://www.johannesbreuer.com/)
-]
 
 ---
 
@@ -68,7 +66,7 @@ After this course you should be able to...
   - .
   - .
 
-[julian.kohne@gesis.org](mailto:julian.kohne@gesis.org), [@JuuuuKoooo](https://twitter.com/JuuuuKoooo), [personal website](https://www.juliankohne.com/)
+[annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de), [@anndeub](https://twitter.com/anndeub), [personal website](https://)
 
 ---
 
@@ -119,7 +117,7 @@ After this course you should be able to...
 
 - Slides and other materials are available at
 
-[https://github.com/jobreu/youtube-workshop-gesis-2022](https://github.com/jobreu/youtube-workshop-gesis-2022)
+[https://github.com/jobreu/youtube-workshop-gesis-2023](https://github.com/jobreu/youtube-workshop-gesis-2023)
 
 We also put the PDF versions of the slides and some other materials on the [GESIS Ilias](https://ilias.gesis.org/) repository for this course.
 
@@ -147,13 +145,17 @@ tweet_embed("https://twitter.com/PhdExhausted/status/1331956737683853318",
   - If you have a question that is not urgent and might be interesting for everybody, please wait until the end of the lecture part, then use the "raise hand" function and ask your question via audio/video
   - During the exercises you can also use "raise hand" + audio/video (if you have a question that might be interesting for others as well) or public or private text chat messages to ask questions
 
+---
+
+## Zoom Etiquette
+
 - We will also try to provide (one-on-one) "tech support" during the exercises if that is needed (please contact us via the text chat in case you have any technical issues/questions that we can solve)
 
 ---
 
 ## Preliminaries: Base `R` vs. `tidyverse`
 
-In this course, we will use a mixture of base `R` and `tidyverse` code as Julian prefers base `R`, Johannes prefers the `tidyverse`, and Ro is agnostic.
+In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`,  Annika prefers ???? `R`, and Ro is agnostic.
 
 .small[
 ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyverse/) and [against](https://blog.ephorie.de/why-i-dont-use-the-tidyverse) using/teaching the `tidyverse`.
@@ -167,7 +169,9 @@ If you've never seen `tidyverse` code, the most important thing to know is the `
 
 It may also be worthwhile to know/remember that `tidyverse` functions normally produce [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe (and most `tidyverse` functions also expect dataframes/tibbles as input to their first argument).
 
---
+---
+
+## The `tidyverse`
 
 If you want a short primer (or need a quick refresher) on the `tidyverse`, you can check out the blog [post by Dominic Royé](https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/). For a more in-depth exploration of the `tidyverse`, you can, e.g., have a look at the [workshop by Olivier Gimenez](https://oliviergimenez.github.io/intro_tidyverse/#1). And the book [*R for Data Science*](https://r4ds.had.co.nz/) by Hadley Wickham and Garrett Grolemund (which is available for free online) provides a very comprehensive introduction to the `tidyverse`.
 
@@ -177,20 +181,21 @@ If you want a short primer (or need a quick refresher) on the `tidyverse`, you c
 
 Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
 
-```{r cases, out.width = "75%"}
-include_graphics("./content/img/camel_snake_kebab.jpg")
+```{r cases, out.width = "50%"}
+include_graphics("https://bookdown.org/joone/ComputationalMethods/img/horst/coding_cases.png")
 ```
 .center[
 <small><small>Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)</small></small>
 ]
 ---
-# Course schedule
 
-.center[**Monday, February 21st, 2022**]
-```{r schedule Wed, echo = F}
+## Course schedule
+
+.center[**Tuesday, February 14th, 2023**]
+```{r schedule Tue, echo = F}
 schedule <- data.frame(
-  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 15:00", "15:00 - 15:30", "15:30 - 17:00")
-  , "What?" = c("Introduction", "<i>Coffee break</i>", "The YouTube API", "<i>Lunch break</i>", "Collecting data with the tuber package for R","<i>Coffee break</i>", "Processing and cleaning user comments (in R)")
+  "When?" = c("09:00 - 10:00", "10:00 - 11:00", "11:00 - 11:15", "11:15 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
+  , "What?" = c("Introduction", "The YouTube API", "<i>Coffee Break</i>", "Tools for collecting YouTube data", "<i>Lunch Break</i>", "Collecting YouTube data with R", "<i>Coffee Break</i>", "Processing and cleaning user comments")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
@@ -206,11 +211,11 @@ knitr::kable(
 
 ## Course schedule
 
-.center[**Tuesday, February 22nd, 2022**]
-```{r schedule Thur, echo = F}
+.center[**Wednesday, February 15th, 2023**]
+```{r schedule Wed, echo = F}
 sharing_options <- data.frame(
-  "When?" = c("09:00 - 10:30", "10:30 - 11:00", "11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 14:30", "14:30 - 16:00")
-  , "What?" = c("Basic text analysis of user comments", "<i>Coffee break</i>", "Sentiment analysis of user comments", "<i>Lunch break</i>", "Excursus: Retrieving video subtitles", "<i>Coffee break</i>", "Practice session, questions, and outlook")
+  "When?" = c("09:00 - 10:30", "10:30 - 10:45", "10:45 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
+  , "What?" = c("Basic text analysis of user comments", "<i>Coffee Break</i>", "Sentiment analysis of user comments", "<i>Lunch Break</i>", "Excursus: Retrieving video subtitles", "<i>Coffee Break</i>", "Practice session, questions, and outlook")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
@@ -255,9 +260,9 @@ knitr::kable(
   
   - Experiences with YouTube<br /><small>([Defy Media, 2017](http://www.newsroom-publicismedia.fr/wp-content/uploads/2017/06/Defi-media-acumen-Youth_Video_Diet-mai-2017.pdf); [Lange, 2007](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.3808&rep=rep1&type=pdf); [Moor et al., 2010](https://doi.org/10.1016/j.chb.2010.05.023); [Oksanen, et al. 2014](https://doi.org/10.1108/S1537-466120140000018021); [Szostak, 2013](https://journals.mcmaster.ca/mjc/article/view/280); [Yang et al., 2010](https://doi.org/10.1089/cyber.2009.0105))</small>
 
-  - Video consumption<br /><small>([Montes-Vozmediano et al., 2018](https://doi.org/10.3916/C54-2018-06); Tucker-McLaughlin, 2013)</small>
+  - Video consumption<br /><small>([Montes-Vozmediano et al., 2018](https://doi.org/10.3916/C54-2018-06); [Tucker-McLaughlin, 2013](https://scholar.google.de/scholar?cluster=6669321353953252964))</small>
 
-  - Radicalization<br /><small>([Ribeiro et al., 2020](https://doi.org/10.1145/3351095.3372879))</small>
+  - Radicalization<br /><small>([Albadi et al., 2022](https://arxiv.org/abs/2207.00111); [Ribeiro et al., 2020](https://doi.org/10.1145/3351095.3372879))</small>
   
   - Community formation<br /><small>([Kaiser & Rauchfleisch, 2020](https://doi.org/10.1177/2056305120969914))</small>
 
@@ -301,7 +306,9 @@ There are many different ways in which data from *YouTube* and other social medi
 
 - Automatically via the *YouTube* API or web scraping
 
---
+---
+
+## How to collect *YouTube* data
 
 Overviews of tools for collecting *YouTube* data
 
@@ -337,6 +344,7 @@ In this course, we will work with the `tuber` package. The *voson* packages focu
 
 ## Comparisons of Approaches for Collecting *YouTube* Data
 
+.small[
 ```{r tools table 1, echo = F}
 tools <- data.frame(
   "Software" = c("YouTube Data Tools 1.22", "Webometric 4.1", "Tuber 0.9.9", "vosonSML 0.29.13", "youtubecaption 1.0.0"),
@@ -354,11 +362,13 @@ knitr::kable(
   , escape = FALSE
 )
 ```
+]
 
 ---
 
 ## Exemplary Comparison of the Different Tools
 
+.small[
 ```{r tools table 2, echo = F}
 usability <- data.frame(
 "Software" = c("YouTube Data Tools 1.22", "Webometric 4.1", "Tuber 0.9.9", "vosonSML 0.29.13"),
@@ -375,6 +385,7 @@ knitr::kable(
   , escape = FALSE
 )
 ```
+]
 
 Example data source: [Dayum Video](https://www.youtube.com/watch?v=DcJFdCmN98s)
 
