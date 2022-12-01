@@ -1,9 +1,10 @@
 ---
-title: "Demo Slides"
-subtitle: "Catchy Subtitle"
-author: "Johannes Breuer & Stefan Jünger"
+title: "Automatic Sampling and Analysis of YouTube Data"
+subtitle: "Demo"
+author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-presenter: Stefan
+presenter: Everybody
+
 ---
 layout: true
 
