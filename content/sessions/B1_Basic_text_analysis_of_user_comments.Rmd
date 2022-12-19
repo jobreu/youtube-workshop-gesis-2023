@@ -26,6 +26,7 @@ library(quanteda)
 library(quanteda.textstats)
 library(wordcloud)
 ```
+
 We also need two libraries that are only available from *GitHub*. You can install them using the `install_github()` function from the `remotes` package.
 
 ```{r libraries-github, eval = F}
@@ -35,9 +36,11 @@ install_github("hadley/emo")
 library(emoGG)
 library(emo)
 ```
+
 *Note*: [Emil Hvitfeldt](https://github.com/EmilHvitfeldt) has created the [`emoji` package](https://emilhvitfeldt.github.io/emoji/) which is based on the `emo` package and also available via *CRAN*.
 
 ---
+
 ## Get the Data
 
 As in the last session, we will be working with the - now processed and cleaned - comments for the [Emoji Movie Trailer](https://www.youtube.com/watch?v=r8pJt4dK_s4). In case you have collected and saved the comments before, you can just load them at this point.
@@ -48,10 +51,12 @@ FormattedComments <- readRDS("./data/ParsedEmojiComments.rds")
 
 *Note*: Depending on where you saved the data, how you named the file, and what your current working directory is, you might have to adjust the file path.
 
-```{r load-data, echo=T, eval=FALSE}
+```{r load-data, echo=F, eval =F}
 FormattedComments <- readRDS("../../data/ParsedEmojiComments.rds")
-``` 
+```
+
 ---
+
 ## Repetition: Collecting Data
 
 If you have not collected and parsed the comments before, you, of course, need to do that before you can analyse any data.
@@ -82,7 +87,7 @@ FormattedComments <- yt_parse(Comments) # this will take a while
 
 For a first exploratory plot, we want to plot the development of the number of comments per week over time and show until when 50%, 75%, 90%, and 99% of the comments had been posted. This requires some data wrangling.
 
-```{r wrangle-comments-over-time, eval=F}
+```{r wrangle-comments-over-time, eval = F}
 FormattedComments <- FormattedComments %>% 
   arrange(Published) %>% 
   mutate(date = date(Published),
@@ -130,7 +135,7 @@ weekly_comments %>%
 
 ## Number of Comments Over Time: Plot
 
-```{r comments-over-time-plot, echo=T, eval=F, dpi=300, out.width="700px", out.height="500px"}
+```{r comments-over-time-plot, echo=F, dpi=300, out.width="700px", out.height="500px"}
 weekly_comments %>% 
   ggplot(aes(x = week, y = n)) +
   geom_bar(stat = "identity") +
@@ -172,7 +177,7 @@ FormattedComments %>%
 Which comments received the highest number of likes?
 
 .smaller[
-```{r comments-likes-output, echo = T, eval=F}
+```{r comments-likes-output, echo = F}
 FormattedComments %>% 
   arrange(-LikeCount) %>% 
   head(10) %>% 
@@ -184,19 +189,14 @@ FormattedComments %>%
 
 ## Text Mining
 
-An introduction to text mining and analysis (for the social sciences) is beyond the scope of this workshop, but there are many great introductions available (for free) online. For example:
+An introduction to text mining and analysis (for social sciences) is beyond the scope of this workshop, but there are great introductions available (for free) online, e.g.
 
 - [Text Mining with R - A Tidy Approach](https://www.tidytextmining.com/) by Julia Silge & David Robinson: A tidy(verse) approach
-
 - [Tutorials for the package `quanteda`](https://tutorials.quanteda.io/)
-
 - [Text mining for humanists and social scientists in R](https://tm4ss.github.io/docs/) by Andreas Niekler & Gregor Wiedemann
-
 - [Text Mining in R](https://www.kirenz.com/post/2019-09-16-r-text-mining/) by Jan Kirenz
-
 - [Computational Text Analysis](http://theresagessler.eu/eui_cta/) by Theresa Gessler
-
-- [Automated Content Analysis](https://automatedcontentanalysis.com/) by Chung-hong Chan (*note*: currently work in progress)
+- [Automated Content Analysis](https://automatedcontentanalysis.com/) by Chung-hong Chan
 
 --
 
@@ -206,9 +206,9 @@ In the following, we will very briefly introduce some key terms and steps in tex
 
 ## Popular Text Mining Packages
 
-- [tm](http://tm.r-forge.r-project.org/): the first comprehensive text mining package for R
+- [**tm**](http://tm.r-forge.r-project.org/): the first comprehensive text mining package for R
 
-- [tidytext](https://juliasilge.github.io/tidytext/): tidyverse tools & tidy data principles
+- [**tidytext**](https://juliasilge.github.io/tidytext/): tidyverse tools & tidy data principles
 
 - [**quanteda**](https://quanteda.io/): very powerful text mining package with extensive documentation
 
@@ -232,21 +232,24 @@ In the following, we will very briefly introduce some key terms and steps in tex
 
 For our examples in this session, we will go through the following preprocessing steps:
 
-1. **Basic string operations**: 
+**1. Basic string operations**: 
   - Transforming to lower case
   - Detecting and removing certain patterns in strings (e.g., punctuation, numbers or URLs)
   
 --
   
-2. **Tokenization**: Splitting up strings into words (could also be combinations of multiple words: n-grams)
+**2. Tokenization**: Splitting up strings into words (could also be combinations of multiple words: n-grams)
 
 --
 
-3. **Stopword removal**: Stopwords are very frequent words that appear in almost all texts (e.g., "a","but","it", "the") but have low informational value for most analyses (at least in the social sciences)
+**3. Stopword removal**: Stopwords are very frequent words that appear in almost all texts (e.g., "a","but","it", "the") but have low informational value for most analyses (at least in the social sciences)
 
---
+---
+## Preprocessing (in a `r ji("chestnut")`)
 
-**NB**: There are many other preprocessing options that we will not use for our examples, such as [stemming](https://en.wikipedia.org/wiki/Stemming), [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation) or natural language processing pipelines (e.g., to detect and select specific word types, such as nouns and adjectives). Keep in mind that the choice and order of these preprocessing steps is important and should be informed by your research question.
+**NB**: 
+- There are many other preprocessing options that we will not use for our examples, such as [stemming](https://en.wikipedia.org/wiki/Stemming), [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation) or natural language processing pipelines (e.g., to detect and select specific word types, such as nouns and adjectives). 
+- Keep in mind that the choice and order of these preprocessing steps is important and should be informed by your research question.
 
 ---
 
@@ -254,7 +257,7 @@ For our examples in this session, we will go through the following preprocessing
 
 Before we tokenize the comments, we want to remove newline commands from the strings.
 
-```{r remove-newline, eval = F}
+```{r remove-newline}
 FormattedComments <- FormattedComments %>% 
   mutate(TextEmojiDeleted = str_replace_all(TextEmojiDeleted,
                                             pattern = "\\\n",
@@ -267,7 +270,7 @@ FormattedComments <- FormattedComments %>%
 
 Now we can tokenize the comments and remove punctuation, symbols, numbers, and URLs.
 
-```{r tokenization, eval = F}
+```{r tokenization}
 toks <- FormattedComments %>% 
   pull(TextEmojiDeleted) %>% 
   char_tolower() %>% 
@@ -285,7 +288,7 @@ toks <- FormattedComments %>%
 
 With the tokens we can create a [document-feature matrix](https://quanteda.io/reference/dfm.html) (DFM) and remove [stopwords](https://en.wikipedia.org/wiki/Stop_word).
 
-```{r dfm, eval=F}
+```{r dfm}
 commentsDfm <- dfm(toks, 
                    remove = quanteda::stopwords("english"))
 ```
@@ -294,12 +297,12 @@ commentsDfm <- dfm(toks,
 
 ## Most Frequent Words
 
-.small[
-```{r word-freq, eval=F}
+
+```{r word-freq}
 TermFreq <- textstat_frequency(commentsDfm)
 head(TermFreq, n = 20)
 ```
-]
+
 
 ---
 
@@ -307,8 +310,8 @@ head(TermFreq, n = 20)
 
 We may want to remove additional words (that are not included in the stopwords list) if we consider them irrelevant for our analyses.
 
-```{r custom-stops, eval=F}
-custom_stopwords <- c("nom", "just", "one")
+```{r custom-stops}
+custom_stopwords <- c("nom", "just", "one", "ߘ")
 commentsDfm <- dfm(toks, remove = c(quanteda::stopwords("english"),
                                     custom_stopwords))
 TermFreq <- textstat_frequency(commentsDfm)
@@ -336,7 +339,7 @@ wordcloud(words = TermFreq$feature,
 
 ## Wordclouds
 
-```{r cloudy-plot, echo = F, eval=F, dpi=300, out.width="500px", out.height="500px"}
+```{r cloudy-plot, echo = F, dpi=300, out.width="700px", out.height="700px"}
 wordcloud(words = TermFreq$feature,
           freq = TermFreq$frequency,
           min.freq = 10,
@@ -350,7 +353,7 @@ wordcloud(words = TermFreq$feature,
 
 ## Don't Let Your Words Cloud Your Plots!
 
-```{r wc-tweet, echo = F, eval=F}
+```{r wc-tweet, echo = F}
 tweet_embed("https://twitter.com/chainsawriot/status/1362370460294524931",
             theme = "dark",
             align = "center")
@@ -381,7 +384,7 @@ head(n = 20) %>%
 
 ## Plot Most Frequent Words
 
-```{r word-freq-plot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+```{r word-freq-plot, echo=F, dpi=300, out.width="650px", out.height="490px"}
 TermFreq %>% 
 head(n = 20) %>% 
   ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
@@ -421,7 +424,7 @@ head(n = 20) %>%
 
 ## Plot Docfreq
 
-```{r docfreq-plot, eval=F, echo=F, dpi=300, out.width="700px", out.height="500px"}
+```{r docfreq-plot, echo=F, dpi=300, out.width="650px", out.height="490px"}
 TermFreq %>% 
 head(n = 20) %>% 
   ggplot(aes(x = reorder(feature, docfreq), y = docfreq)) +
@@ -446,7 +449,7 @@ In most of the research studying user-generated text from social media, emojis h
 
 In the following, we will do some exploratory analysis of emoji frequencies in *YouTube* comments. Before we can start, we first need to do some data cleaning again, then tokenize the emojis as some comments include more than one emoji, and create an emoji DFM.
 
-```{r wrangle-emoji-data, eval=F}
+```{r wrangle-emoji-data}
 emoji_toks <- FormattedComments %>% 
   mutate(Emoji = na_if(Emoji, "NA")) %>% # define missings
   mutate (Emoji = str_trim(Emoji)) %>% # remove spaces
@@ -461,7 +464,7 @@ EmojiDfm <- dfm(emoji_toks) # create DFM for emojis
 
 ## Most Frequent Emojis
 
-```{r emoji-freq, eval=F}
+```{r emoji-freq}
 EmojiFreq <- textstat_frequency(EmojiDfm)
 head(EmojiFreq, n = 10)
 ```
@@ -491,7 +494,7 @@ head(n = 10) %>%
 
 ## Plot Most Frequent Emojis
 
-```{r emoji-barplot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+```{r emoji-barplot, echo=F, dpi=300, out.width="700px", out.height="500px"}
 EmojiFreq %>% 
 head(n = 10) %>% 
   ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
@@ -508,13 +511,13 @@ head(n = 10) %>%
 
 ---
 
-## `r ji("sunglasses")` Emoji Frequency Plot: Preparation (1)
+## Emoji Frequency Plot: Preparation (1)
 
-The previous emoji frequency plot was a bit `r ji("sleepy_face")`. To make things prettier, we can use the actual emojis instead of the text labels in our plot. Doing this takes a bit of preparation...<sup>1</sup>
+The previous emoji frequency plot was a bit `r ji("sleepy_face")`. To make things prettier, we can use the actual emojis instead of the text labels in our plot. Doing this takes a bit of preparation.<sup>1</sup>
 
 As a first step, we need an emoji lookup table in which the values in the name column have the same format as the labels in the feature column of our `EmojiFreq` object.
 
-```{r emoji-lookup, eval=F}
+```{r emoji-lookup}
 emoji_lookup <- jis %>% 
   select(runes, name) %>% 
   mutate(runes = str_to_lower(runes),
@@ -523,17 +526,17 @@ emoji_lookup <- jis %>%
   mutate(name = paste0("emoji_", name))
 ```
 
-.footnote[
-[1] For an alternative approach to using emojis in `ggplot2` see this [blog post by Emil Hvitfeldt](https://www.emilhvitfeldt.com/post/2020-01-02-real-emojis-in-ggplot2/).
-]
+
+<sup>1</sup>For an alternative approach to using emojis in `ggplot2` see this [blog post by Emil Hvitfeldt](https://www.emilhvitfeldt.com/post/2020-01-02-real-emojis-in-ggplot2/).
+
 
 ---
 
-## `r ji("sunglasses")` Emoji Frequency Plot: Preparation (2)
+## Emoji Frequency Plot: Preparation (2)
 
 The second step of preparation for the nicer emoji frequency plot is creating mappings of emojis to data points so that we can use emojis instead of points in a scatter plot.<sup>1</sup>
 
-```{r emoji-mappings, eval=F}
+```{r emoji-mappings}
 top_emojis <- 1:10
 
 for(i in top_emojis){
@@ -544,9 +547,8 @@ for(i in top_emojis){
 }
 ```
 
-.footnote[
-[1] Please note that this code has not been tested systematically. We only used it with a few videos. Depending on which emojis are the most frequent for the video you look at, this might not work because (a) one of the emojis is not included in the emoji lookup table (which uses the `jis` data frame from the [`emo` package](https://github.com/hadley/emo)) or (b) the content in the `runes` column does not match the format/code that the `emoji` argument in the `geom_emoji` function from the [`emoGG` package](https://github.com/dill/emoGG) expects.
-]
+<sup>1</sup> Please note: this code has not been tested systematically. Depending on which emojis are most frequent for a video, this might not work because (a) one of the emojis is not included in the emoji lookup table (which uses the `jis` data frame from the [`emo` package](https://github.com/hadley/emo)) or (b) the content in the `runes` column doesn't match the format/code that the `emoji` argument in the `geom_emoji` function from the [`emoGG` package](https://github.com/dill/emoGG) expects.
+
 
 ---
 
@@ -589,7 +591,7 @@ head(n = 10) %>%
 
 ## `r ji("sunglasses")` Emoji Frequency Plot
 
-```{r cool-emoji-plot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+```{r cool-emoji-plot, echo=F, dpi=300, out.width="650px", out.height="500px"}
 EmojiFreq %>% 
 head(n = 10) %>% 
   ggplot(aes(x = reorder(feature, -frequency), y = frequency)) +
@@ -624,7 +626,6 @@ head(n = 10) %>%
 
 class: center, middle
 
-## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2022/exercises/B1_Basic_text_analysis_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/B1_Basic_text_analysis_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/B1_Basic_text_analysis_exercises_solution.html)
----
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/B1_Basic_text_analysis_exercises_solution.html)
