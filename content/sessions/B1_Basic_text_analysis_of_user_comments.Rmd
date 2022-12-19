@@ -1,0 +1,630 @@
+---
+title: "Automatic Sampling and Analysis of YouTube Data"
+subtitle: "Basic text analysis of user comments"
+author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+presenter: Annika
+
+---
+
+layout: true
+
+```{r child = "./content/config/sessions_setup.Rmd"}
+```
+
+<!-- START HERE WITH SLIDES -->
+
+---
+
+## Required Libraries for This Session
+
+```{r libraries, eval=F}
+library(tidyverse)
+library(lubridate)
+library(tuber)
+library(quanteda)
+library(quanteda.textstats)
+library(wordcloud)
+```
+We also need two libraries that are only available from *GitHub*. You can install them using the `install_github()` function from the `remotes` package.
+
+```{r libraries-github, eval = F}
+library(remotes)
+install_github("dill/emoGG")
+install_github("hadley/emo")
+library(emoGG)
+library(emo)
+```
+*Note*: [Emil Hvitfeldt](https://github.com/EmilHvitfeldt) has created the [`emoji` package](https://emilhvitfeldt.github.io/emoji/) which is based on the `emo` package and also available via *CRAN*.
+
+---
+## Get the Data
+
+As in the last session, we will be working with the - now processed and cleaned - comments for the [Emoji Movie Trailer](https://www.youtube.com/watch?v=r8pJt4dK_s4). In case you have collected and saved the comments before, you can just load them at this point.
+
+```{r load-comments, eval=FALSE}
+FormattedComments <- readRDS("./data/ParsedEmojiComments.rds") 
+```
+
+*Note*: Depending on where you saved the data, how you named the file, and what your current working directory is, you might have to adjust the file path.
+
+```{r load-data, echo=T, eval=FALSE}
+FormattedComments <- readRDS("../../data/ParsedEmojiComments.rds")
+``` 
+---
+## Repetition: Collecting Data
+
+If you have not collected and parsed the comments before, you, of course, need to do that before you can analyse any data.
+
+**NB**: To save time and your *YouTube* API quota limit you might not want to do this now.
+
+Step 1: Collecting the comments
+```{r get-comments, eval=F}
+Comments <- get_all_comments(video_id="r8pJt4dK_s4") # takes a while
+```
+
+---
+
+## Repetition: Parsing the Comments
+
+To run the following code the script `yt_parse.R` as well as the ones containing the helper functions (`CamelCase.R`, `ExtractEmoji.R`, and `ReplaceEmoji.R`) need to be in the working directory (you can find those files in the `scripts` folder in the workshop materials).
+
+```{r parse-comments, eval=F}
+source("yt_parse.R")
+FormattedComments <- yt_parse(Comments) # this will take a while
+```
+
+*Note*: As an alternative to sourcing the `yt_parse.R` file you could also "manually" run the code from the slides for the session on *Processing and Cleaning User Comments* on the collected comments.
+
+---
+
+## Comments Over Time: Data Wrangling `r ji("cowboy")`
+
+For a first exploratory plot, we want to plot the development of the number of comments per week over time and show until when 50%, 75%, 90%, and 99% of the comments had been posted. This requires some data wrangling.
+
+```{r wrangle-comments-over-time, eval=F}
+FormattedComments <- FormattedComments %>% 
+  arrange(Published) %>% 
+  mutate(date = date(Published),
+         week = floor_date(date, 
+                           unit = "week",
+                           week_start = getOption("lubridate.week.start", 1)),
+         counter = 1)
+
+weekly_comments <- FormattedComments %>% 
+  count(week) %>% 
+  mutate(cumulative_count = cumsum(n))
+
+PercTimes <- round(quantile(cumsum(FormattedComments$counter), 
+                            probs = c(0.5, 0.75, 0.9, 0.99)))
+```
+
+---
+
+## Comments Over Time: Plot
+
+```{r comments-over-time-plot-code, eval=F}
+weekly_comments %>% 
+  ggplot(aes(x = week, y = n)) +
+  geom_bar(stat = "identity") +
+  scale_x_date(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,10000)) +
+  labs(title = "Number of comments over time",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "Week",
+       y = "# of comments") +
+  geom_vline(xintercept = FormattedComments$week[PercTimes],linetype = "dashed", colour = "red") +
+  geom_text(aes(x = FormattedComments$week[PercTimes][1], label = "50%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][2], label = "75%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][3], label = "90%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][4], label = "99%", y = 3500), 
+            colour="red", angle=90, vjust = 1.2)
+```
+
+---
+
+## Number of Comments Over Time: Plot
+
+```{r comments-over-time-plot, echo=T, eval=F, dpi=300, out.width="700px", out.height="500px"}
+weekly_comments %>% 
+  ggplot(aes(x = week, y = n)) +
+  geom_bar(stat = "identity") +
+  scale_x_date(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,10000)) +
+  labs(title = "Number of comments over time",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "Week",
+       y = "# of comments") +
+  geom_vline(xintercept = FormattedComments$week[PercTimes],linetype = "dashed", colour = "red") +
+  geom_text(aes(x = FormattedComments$week[PercTimes][1], label = "50%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][2], label = "75%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][3], label = "90%", y = 3500),
+            colour="red", angle=90, vjust = 1.2) +
+  geom_text(aes(x = FormattedComments$week[PercTimes][4], label = "99%", y = 3500), 
+            colour="red", angle=90, vjust = 1.2)
+```
+---
+
+## Most Popular Comments
+
+Which comments received the highest number of likes?
+
+```{r comments-likes-code, eval = F}
+FormattedComments %>% 
+  arrange(-LikeCount) %>% 
+  head(10) %>% 
+  select(Text, LikeCount, Published)
+```
+
+---
+
+## Most Popular Comments
+
+Which comments received the highest number of likes?
+
+.smaller[
+```{r comments-likes-output, echo = T, eval=F}
+FormattedComments %>% 
+  arrange(-LikeCount) %>% 
+  head(10) %>% 
+  select(Text, LikeCount, Published)
+```
+]
+
+---
+
+## Text Mining
+
+An introduction to text mining and analysis (for the social sciences) is beyond the scope of this workshop, but there are many great introductions available (for free) online. For example:
+
+- [Text Mining with R - A Tidy Approach](https://www.tidytextmining.com/) by Julia Silge & David Robinson: A tidy(verse) approach
+
+- [Tutorials for the package `quanteda`](https://tutorials.quanteda.io/)
+
+- [Text mining for humanists and social scientists in R](https://tm4ss.github.io/docs/) by Andreas Niekler & Gregor Wiedemann
+
+- [Text Mining in R](https://www.kirenz.com/post/2019-09-16-r-text-mining/) by Jan Kirenz
+
+- [Computational Text Analysis](http://theresagessler.eu/eui_cta/) by Theresa Gessler
+
+- [Automated Content Analysis](https://automatedcontentanalysis.com/) by Chung-hong Chan (*note*: currently work in progress)
+
+--
+
+In the following, we will very briefly introduce some key terms and steps in text mining, and then go through some examples of exploring *YouTube* comments (text + emojis).
+
+---
+
+## Popular Text Mining Packages
+
+- [tm](http://tm.r-forge.r-project.org/): the first comprehensive text mining package for R
+
+- [tidytext](https://juliasilge.github.io/tidytext/): tidyverse tools & tidy data principles
+
+- [**quanteda**](https://quanteda.io/): very powerful text mining package with extensive documentation
+
+---
+
+## Text as Data (in a `r ji("chestnut")`)
+
+**Document** = collection of text strings
+
+**Corpus** = collection of documents (+ metadata about the documents)
+
+**Token** = part of a text that is a meaningful unit of analysis (often individual words)
+
+**Vocabulary** = list of all distinct words form a corpus (i.e., all types)
+
+**Document-term matrix (DTM)** or **Document-feature matrix (DFM)** = matrix with *n* = # of documents rows and *m* = size of vocabulary columns where each cell contains the count of a particular word for a particular document
+
+---
+
+## Preprocessing (in a `r ji("chestnut")`)
+
+For our examples in this session, we will go through the following preprocessing steps:
+
+1. **Basic string operations**: 
+  - Transforming to lower case
+  - Detecting and removing certain patterns in strings (e.g., punctuation, numbers or URLs)
+  
+--
+  
+2. **Tokenization**: Splitting up strings into words (could also be combinations of multiple words: n-grams)
+
+--
+
+3. **Stopword removal**: Stopwords are very frequent words that appear in almost all texts (e.g., "a","but","it", "the") but have low informational value for most analyses (at least in the social sciences)
+
+--
+
+**NB**: There are many other preprocessing options that we will not use for our examples, such as [stemming](https://en.wikipedia.org/wiki/Stemming), [lemmatization](https://en.wikipedia.org/wiki/Lemmatisation) or natural language processing pipelines (e.g., to detect and select specific word types, such as nouns and adjectives). Keep in mind that the choice and order of these preprocessing steps is important and should be informed by your research question.
+
+---
+
+## Tokenization
+
+Before we tokenize the comments, we want to remove newline commands from the strings.
+
+```{r remove-newline, eval = F}
+FormattedComments <- FormattedComments %>% 
+  mutate(TextEmojiDeleted = str_replace_all(TextEmojiDeleted,
+                                            pattern = "\\\n",
+                                            replacement = " "))
+```
+
+---
+
+## Tokenization
+
+Now we can tokenize the comments and remove punctuation, symbols, numbers, and URLs.
+
+```{r tokenization, eval = F}
+toks <- FormattedComments %>% 
+  pull(TextEmojiDeleted) %>% 
+  char_tolower() %>% 
+  tokens(remove_numbers = TRUE,
+               remove_punct = TRUE,
+               remove_separators = TRUE,
+               remove_symbols = TRUE,
+               split_hyphens = TRUE,
+               remove_url = TRUE)
+```
+
+---
+
+## Document-Feature Matrix
+
+With the tokens we can create a [document-feature matrix](https://quanteda.io/reference/dfm.html) (DFM) and remove [stopwords](https://en.wikipedia.org/wiki/Stop_word).
+
+```{r dfm, eval=F}
+commentsDfm <- dfm(toks, 
+                   remove = quanteda::stopwords("english"))
+```
+
+---
+
+## Most Frequent Words
+
+.small[
+```{r word-freq, eval=F}
+TermFreq <- textstat_frequency(commentsDfm)
+head(TermFreq, n = 20)
+```
+]
+
+---
+
+## Removing Tokens
+
+We may want to remove additional words (that are not included in the stopwords list) if we consider them irrelevant for our analyses.
+
+```{r custom-stops, eval=F}
+custom_stopwords <- c("nom", "just", "one")
+commentsDfm <- dfm(toks, remove = c(quanteda::stopwords("english"),
+                                    custom_stopwords))
+TermFreq <- textstat_frequency(commentsDfm)
+```
+
+For more options for selecting or removing tokens, see the [quanteda documentation](https://tutorials.quanteda.io/basic-operations/tokens/tokens_select/).
+
+---
+
+## Wordclouds
+
+```{r cloudy-code, eval = F}
+wordcloud(words = TermFreq$feature,
+          freq = TermFreq$frequency,
+          min.freq = 10,
+          max.words = 50,
+          random.order = FALSE,
+          rot.per = 0.35,
+          colors = brewer.pal(8, "Dark2"))
+```
+
+*Note*: You can adjust what is plotted by, e.g., changing the minimum frequency (`min.freq`) or the maximum # of words (`max.words`). Check `?wordcloud` for more customization options.
+
+---
+
+## Wordclouds
+
+```{r cloudy-plot, echo = F, eval=F, dpi=300, out.width="500px", out.height="500px"}
+wordcloud(words = TermFreq$feature,
+          freq = TermFreq$frequency,
+          min.freq = 10,
+          max.words = 50,
+          random.order = FALSE,
+          rot.per = 0.35,
+          colors = brewer.pal(8, "Dark2"))
+```
+
+---
+
+## Don't Let Your Words Cloud Your Plots!
+
+```{r wc-tweet, echo = F, eval=F}
+tweet_embed("https://twitter.com/chainsawriot/status/1362370460294524931",
+            theme = "dark",
+            align = "center")
+```
+
+*Note*: To catch up with the state-of-the-art in text analysis, you can check out the [blog post "Top 5 most important textual analysis methods papers of the year 2020"](https://chainsawriot.com/mannheim/2021/12/22/most2020.html) by [Chung-hong Chan](https://github.com/chainsawriot). 
+
+---
+
+## Plot Most Frequent Words
+
+```{r code-word-freq-plot, eval=F}
+TermFreq %>% 
+head(n = 20) %>% 
+  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_bar(stat="identity") +
+  labs(title = "Most frequent words in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,12000)) +
+  coord_flip()
+```
+
+---
+
+## Plot Most Frequent Words
+
+```{r word-freq-plot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+TermFreq %>% 
+head(n = 20) %>% 
+  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_bar(stat="identity") +
+  labs(title = "Most frequent words in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,12000)) +
+  coord_flip()
+```
+
+---
+
+## Plot Docfreq
+
+Instead of the raw frequency of words we can also look at the number of comments that a particular word appears in. This metric takes into account that words might be used multiple times in the same comment.
+
+```{r code-docfreq-plot, eval=F}
+TermFreq %>% 
+head(n = 20) %>% 
+  ggplot(aes(x = reorder(feature, docfreq), y = docfreq)) +
+  geom_bar(stat="identity") + 
+  labs(title = "Words that appear in the highest number of comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "# of comments") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,10000)) +
+  coord_flip()
+```
+
+---
+
+## Plot Docfreq
+
+```{r docfreq-plot, eval=F, echo=F, dpi=300, out.width="700px", out.height="500px"}
+TermFreq %>% 
+head(n = 20) %>% 
+  ggplot(aes(x = reorder(feature, docfreq), y = docfreq)) +
+  geom_bar(stat="identity") + 
+  labs(title = "Words that appear in the highest number of comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "# of comments") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,10000)) +
+  coord_flip()
+```
+
+---
+
+## Emojis
+
+In most of the research studying user-generated text from social media, emojis have, so far, been largely ignored. However, emojis convey emotions and meaning, and can, thus, provide additional information or context when working with textual data. 
+
+--
+
+In the following, we will do some exploratory analysis of emoji frequencies in *YouTube* comments. Before we can start, we first need to do some data cleaning again, then tokenize the emojis as some comments include more than one emoji, and create an emoji DFM.
+
+```{r wrangle-emoji-data, eval=F}
+emoji_toks <- FormattedComments %>% 
+  mutate(Emoji = na_if(Emoji, "NA")) %>% # define missings
+  mutate (Emoji = str_trim(Emoji)) %>% # remove spaces
+  filter(!is.na(Emoji)) %>% # only keep comments with emojis
+  pull(Emoji) %>% # pull out column cotaining emoji labels
+  tokens(what = "fastestword") # tokenize emoji labels
+
+EmojiDfm <- dfm(emoji_toks) # create DFM for emojis
+```
+
+---
+
+## Most Frequent Emojis
+
+```{r emoji-freq, eval=F}
+EmojiFreq <- textstat_frequency(EmojiDfm)
+head(EmojiFreq, n = 10)
+```
+
+---
+
+## Plot Most Frequent Emojis
+
+```{r emoji-barplot-code, eval=F}
+EmojiFreq %>% 
+head(n = 10) %>% 
+  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_bar(stat="identity") + 
+  labs(title = "Most frequent emojis in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,5000)) +
+ coord_flip()
+```
+
+*Note*: Similar to what we did for the comment text before we could replace `frequency` with `docfreq` in the above code to create a plot with the emojis that appear in the highest number of comments.
+
+---
+
+## Plot Most Frequent Emojis
+
+```{r emoji-barplot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+EmojiFreq %>% 
+head(n = 10) %>% 
+  ggplot(aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_bar(stat="identity") + 
+  labs(title = "Most frequent emojis in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,5000)) +
+ coord_flip()
+```
+
+---
+
+## `r ji("sunglasses")` Emoji Frequency Plot: Preparation (1)
+
+The previous emoji frequency plot was a bit `r ji("sleepy_face")`. To make things prettier, we can use the actual emojis instead of the text labels in our plot. Doing this takes a bit of preparation...<sup>1</sup>
+
+As a first step, we need an emoji lookup table in which the values in the name column have the same format as the labels in the feature column of our `EmojiFreq` object.
+
+```{r emoji-lookup, eval=F}
+emoji_lookup <- jis %>% 
+  select(runes, name) %>% 
+  mutate(runes = str_to_lower(runes),
+         name = str_to_lower(name)) %>% 
+  mutate(name = str_replace_all(name, " ", "")) %>% 
+  mutate(name = paste0("emoji_", name))
+```
+
+.footnote[
+[1] For an alternative approach to using emojis in `ggplot2` see this [blog post by Emil Hvitfeldt](https://www.emilhvitfeldt.com/post/2020-01-02-real-emojis-in-ggplot2/).
+]
+
+---
+
+## `r ji("sunglasses")` Emoji Frequency Plot: Preparation (2)
+
+The second step of preparation for the nicer emoji frequency plot is creating mappings of emojis to data points so that we can use emojis instead of points in a scatter plot.<sup>1</sup>
+
+```{r emoji-mappings, eval=F}
+top_emojis <- 1:10
+
+for(i in top_emojis){
+  name <- paste0("mapping", i)
+  assign(name,
+         do.call(geom_emoji,list(data = EmojiFreq[i,],
+                                 emoji = gsub("^0{2}","", strsplit(tolower(emoji_lookup$runes[emoji_lookup$name == as.character(EmojiFreq[i,]$feature)])," ")[[1]][1]))))
+}
+```
+
+.footnote[
+[1] Please note that this code has not been tested systematically. We only used it with a few videos. Depending on which emojis are the most frequent for the video you look at, this might not work because (a) one of the emojis is not included in the emoji lookup table (which uses the `jis` data frame from the [`emo` package](https://github.com/hadley/emo)) or (b) the content in the `runes` column does not match the format/code that the `emoji` argument in the `geom_emoji` function from the [`emoGG` package](https://github.com/dill/emoGG) expects.
+]
+
+---
+
+## `r ji("sunglasses")` Emoji Frequency Plot
+
+.small[
+```{r cool-emoji-plot-code, eval=F}
+EmojiFreq %>% 
+head(n = 10) %>% 
+  ggplot(aes(x = reorder(feature, -frequency), y = frequency)) +
+  geom_bar(stat="identity",
+           color = "black",
+           fill = "#FF74A6",
+           alpha = 0.7) + 
+  geom_point() +
+  labs(title = "Most frequent emojis in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,5000)) +
+  theme(panel.grid.major.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  mapping1 +
+  mapping2 +
+  mapping3 +
+  mapping4 +
+  mapping5 +
+  mapping6 +
+  mapping7 +
+  mapping8 +
+  mapping9 +
+  mapping10
+```
+]
+
+---
+
+## `r ji("sunglasses")` Emoji Frequency Plot
+
+```{r cool-emoji-plot, echo=F, eval=F, dpi=300, out.width="700px", out.height="500px"}
+EmojiFreq %>% 
+head(n = 10) %>% 
+  ggplot(aes(x = reorder(feature, -frequency), y = frequency)) +
+  geom_bar(stat="identity",
+           color = "black",
+           fill = "#FF74A6",
+           alpha = 0.7) + 
+  geom_point() +
+  labs(title = "Most frequent emojis in comments",
+       subtitle = "THE EMOJI MOVIE - Official Trailer (HD)
+       \nhttps://www.youtube.com/watch?v=r8pJt4dK_s4",
+       x = "",
+       y = "Frequency") +
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,5000)) +
+  theme(panel.grid.major.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank()) +
+  mapping1 +
+  mapping2 +
+  mapping3 +
+  mapping4 +
+  mapping5 +
+  mapping6 +
+  mapping7 +
+  mapping8 +
+  mapping9 +
+  mapping10
+```
+
+---
+
+class: center, middle
+
+## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2022/exercises/B1_Basic_text_analysis_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/B1_Basic_text_analysis_exercises_solution.html)
+---
