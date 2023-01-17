@@ -2,7 +2,7 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Introduction"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+date: "February 14th, 2023"
 presenter: Everybody
 
 ---
@@ -25,38 +25,34 @@ After this course you should be able to...
 
 ## About us
 
-### Johannes Breuer
+**Johannes Breuer**
 
-- Senior researcher in the team *Data Augmentation* in the department *Survey Data Curation* at *GESIS*
+.small[
+- Senior researcher in the team *Data Augmentation*, department [*Survey Data Curation*](https://www.gesis.org/en/institute/departments/survey-data-curation) at *GESIS*
     - digital trace data for social science research
     - data linking (surveys + digital trace data) 
     
-- (Co-) Team leader of the team *Research Data & Methods* at the *Center for Advanced Internet Studies* (CAIS)
+- (Co-)leader of the team *Research Data & Methods* at the [*Center for Advanced Internet Studies* (CAIS)](https://www.cais-research.de/)
     
-- Ph.D. in Psychology, University of Cologne
+- Ph.D. in Psychology, University of Cologne  
 
-
----
-
-## About us
-
-### Johannes Breuer
-
-- Previously worked in several research projects investigating the use and effects of digital media (Cologne, Hohenheim, Münster, Tübingen)  
-
-- Other research interests
+- Research interests
+    - Use and effects of digital media
     - Computational methods
     - Data management
     - Open science
 
 [johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09), [personal website](https://www.johannesbreuer.com/)
 
+]
+
 ---
 
 ## About us
 
-### Annika Deubel 
+**Annika Deubel** 
 
+.small[
 - M.Sc. in Applied Cognitive and Media Sciences (University of Duisburg-Essen)
 
 - Ph.D. candidate at the University of Duisburg-Essen
@@ -64,24 +60,19 @@ After this course you should be able to...
 
 - Main area: health communication and information on social media
 
----
-
-## About us
-
-### Annika Deubel 
-
 - Other research interests:
   - Data and Algorithm Literacy
   - Computational methods
 
-
 [annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de), [@anndeub](https://twitter.com/anndeub)
+
+]
 
 ---
 
 ## About us
 
-### M. Rohangis Mohseni 
+**M. Rohangis Mohseni** 
 
 - Postdoctoral researcher (Media Psychology) at TU Ilmenau
 
@@ -107,7 +98,6 @@ After this course you should be able to...
 
 - Why/how do you want to use *YouTube* for your research?
 
-
 ---
 
 ## Prerequisites for this course
@@ -132,39 +122,24 @@ We also put the PDF versions of the slides and some other materials on the [GESI
 
 ---
 
-## Zoom Etiquette
+## Online format
 
-- If possible, we invite you to turn on your camera (during the lecture and exercise parts); feel free to use a virtual background if you want to
+- If possible, we invite you to turn on your camera
 
-```{r tweet, echo = F}
-tweet_embed("https://twitter.com/PhdExhausted/status/1331956737683853318",
-            theme = "dark",
-            maxwidth = 400,
-            align = "center")
-```
+- Feel free to ask questions anytime
 
----
+  - If you have an immediate question during the lecture parts, please send it via text chat, publicly or privately (ideally to a person who is currently not presenting)
 
-## Zoom Etiquette
+  - If you have a question that is not urgent and might be interesting for everybody, you can also use audio (& video) to ask it at the end of a lecture part or during the exercises
+(please use the use the "raise hand" function in *Zoom* for this)
 
-- Please mute your microphones unless you are asking a question
-
-- Asking questions:
-  - If you have an immediate question, feel free to ask it via video/audio using the "raise hand" function in *Zoom* or via the text chat (private or public)
-  - If you have a question that is not urgent and might be interesting for everybody, please wait until the end of the lecture part, then use the "raise hand" function and ask your question via audio/video
-  - During the exercises you can also use "raise hand" + audio/video (if you have a question that might be interesting for others as well) or public or private text chat messages to ask questions
-
----
-
-## Zoom Etiquette
-
-- We will also try to provide (one-on-one) "tech support" during the exercises if that is needed (please contact us via the text chat in case you have any technical issues/questions that we can solve)
+- We would kindly ask you to mute your microphones when you are not asking (or answering) a question
 
 ---
 
 ## Preliminaries: Base `R` vs. `tidyverse`
 
-In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`,  Annika prefers ???? `R`, and Ro is agnostic.
+In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`, and  Annika and Ro use both.
 
 .small[
 ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyverse/) and [against](https://blog.ephorie.de/why-i-dont-use-the-tidyverse) using/teaching the `tidyverse`.
@@ -190,7 +165,7 @@ If you want a short primer (or need a quick refresher) on the `tidyverse`, you c
 
 Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
 
-```{r cases, out.width = "50%"}
+```{r cases, out.width = "50%", echo=FALSE}
 include_graphics("https://bookdown.org/joone/ComputationalMethods/img/horst/coding_cases.png")
 ```
 .center[
@@ -314,40 +289,6 @@ There are many different ways in which data from *YouTube* and other social medi
 - Using existing data, such as [*YouNiverse: Large-Scale Channel and Video Metadata from English YouTube*](https://zenodo.org/record/4650046) (also see the accompanying preprint by [Ribeiro & West, 2021](https://arxiv.org/abs/2012.10378))
 
 - Automatically via the *YouTube* API or web scraping
-
----
-
-## How to collect *YouTube* data
-
-Overviews of tools for collecting *YouTube* data
-
-- [YouTube Tools](https://smo-wiki.leibniz-hbi.de/YouTube-Tools) collected by the Leibniz-HBI Social Media Observatory
-
-- [Social Media Research Tookit](https://socialmediadata.org/social-media-research-toolkit/) by the Social Media Lab at Ryerson University
-
----
-
-## Tools for the Automatic Sampling of *YouTube* Data without `R`
-
-- [YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
-
-- [Facepager](https://github.com/strohne/Facepager/wiki)
-
-- [Webometric Analyst](http://lexiurl.wlv.ac.uk/)
-
----
-
-## Tools for the Automatic Sampling of *YouTube* Data with `R`
-
-- [`vosonSML`](https://cran.r-project.org/web/packages/vosonSML/) (formerly SocialMediaLab)
-
-- [`VOSONDash`](https://vosonlab.github.io/VOSONDash/)
-
-- [`tuber`](https://cran.r-project.org/web/packages/tuber/)
-
-- [`youtubecaption`](https://cran.r-project.org/web/packages/youtubecaption/)
-
-In this course, we will work with the `tuber` package. The *voson* packages focus more on network data (and analysis) and the `youtubecaption` package is for collecting captions (which we will also briefly discuss later on in the workshop).
 
 ---
 
