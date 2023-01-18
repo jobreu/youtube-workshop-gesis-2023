@@ -138,6 +138,24 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ---
 
+## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
+
+  - As a last resort, you can retrieve subtitles with the Chrome plugin [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related)
+
+- **Pros**:
+
+  - Easy to install, easy to use
+  
+  - Desired subtitle can be selected
+  
+- **Cons**:
+
+  - Manual copy & paste for each video (no automatization)
+
+  - Subtitles are not in standard format; need to be processed  
+
+---
+
 ## Time for a Short Live Demo
 
 ```{r cases, out.width = "75%"}
