@@ -158,9 +158,7 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ## Time for a Short Live Demo
 
-```{r cases, out.width = "75%"}
-include_graphics("./content/img/youtubesubtitles.jpg")
-```
+![plot](../../content/img/youtubesubtitles.jpg)
 
 **Note**: You can find the code for collecting subtitles for *YouTube* videos in the `YouTubeSubtitles.R` file in the `scripts` folder.
 
