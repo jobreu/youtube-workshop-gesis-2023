@@ -46,11 +46,14 @@ We will explain these steps in detail on the following slides.
   
 Go to the [Developer Console](https://console.developers.google.com) and log in with your (new) *Google* account. You need to accept the *Google* Developer Terms of Service (ToS). You can deselect the email updates, and click "Agree and continue".
 
+![plot](../../content/img/setup-1.png)
 ---
 
 ## Creating a Project
 
 After that, you need to click on "Select a project" on the top left of the screen.
+
+![plot](../../content/img/setup-2.png)
 
 ---
 
@@ -58,25 +61,35 @@ After that, you need to click on "Select a project" on the top left of the scree
 
 In the pop-up window, click on "New project" to create a new project.
 
+![plot](../../content/img/setup-3.png)
+
 ---
 ## Creating a Project
 
 Enter a project name and click on "create". You don't need to specify an organization.
+
+![plot](../../content/img/setup-4.png)
 
 ---
 ## Activating the YouTube Data API v3
 
 On the next screen, go to your project by clicking on "Select Project" in the pop-up window on the top right.
 
+![plot](../../content/img/setup-5.png)
+
 ---
 ## Activating the YouTube Data API v3
 
 On your project site, scroll down and click on "Explore and enable APIs".
 
+![plot](../../content/img/setup-6.png)
+
 ---
 ## Activating the YouTube Data API v3
 
 Next, click on the blue "Enable APIs and services" button on the top left side. 
+
+![plot](../../content/img/setup-7.png)
 
 ---
 
@@ -84,28 +97,37 @@ Next, click on the blue "Enable APIs and services" button on the top left side.
 
 On the next page, search for "youtube data api v3".
 
+![plot](../../content/img/setup-8.png)
+
 ---
 
 ## Activating the YouTube Data API v3
 
 Select "YouTube Data API v3"
 
+![plot](../../content/img/setup-9.png)
 ---
 
 ## Activating the YouTube Data API v3
 
 On the next screen, click "enable" to activate the YouTube data API v3.
 
+![plot](../../content/img/setup-10.png)
+
 ---
 
 ## Creating Credentials
 
 In the next step, click on "Create Credentials" on the top right.
+
+![plot](../../content/img/setup-11.png)
 ---
 
 ## Creating Credentials
 
 On the next screen, select "YouTube Data API v3" and click on the "User Data" radio button, then click "next".
+
+![plot](../../content/img/setup-12.png)
 
 ---
 
@@ -113,11 +135,15 @@ On the next screen, select "YouTube Data API v3" and click on the "User Data" ra
 
 Next, specify an arbitrary app name and enter your (new) *Gmail* address as the user support email and developer contact email. Click "Save and continue" afterwards.
 
+![plot](../../content/img/setup-13.png)
+
 ---
 
 ## Creating Credentials
 
 Click on "Add or removes scopes" next.
+
+![plot](../../content/img/setup-14.png)
 
 ---
 
@@ -125,11 +151,22 @@ Click on "Add or removes scopes" next.
 
 Use the uppermost checkbox to select all scopes on all pages of the table. *Note*: For this workshop it's sufficient to only select the scopes for the YouTube Data API v3 (which you could do via the filter box), but it is quicker and easier, if you simply select everything. Afterwards, click on "update".
 
+![plot](../../content/img/setup-15.png)
 ---
 
 ## Creating Credentials
 
-Select "Desktop App" as the application type and specify the name of you set of crendentials (can be any name). Click on "Create" to confirm
+Next, click on "Save and continue" to confirm your selection of scopes.
+
+![plot](../../content/img/setup-16.png)
+
+---
+
+## Creating Credentials
+
+Select "Desktop App" as the application type and specify the name of you set of credentials (can be any name). Click on "Create" to confirm.
+
+![plot](../../content/img/setup-18.png)
 
 ---
 
@@ -137,11 +174,14 @@ Select "Desktop App" as the application type and specify the name of you set of 
 
 On the bottom of the page, click "Done" to finalize your changes.
 
+
 ---
 
 ## Creating Credentials
 
 Navigate to the "OAuth Consent Screen" tab in the menu on the left and click on "Add Test Users".
+
+![plot](../../content/img/setup-19.png)
 
 ---
 
@@ -149,13 +189,14 @@ Navigate to the "OAuth Consent Screen" tab in the menu on the left and click on 
 
 In the sidebar panel that should open on the right, enter your *Gmail* address as a test user and click "Save".
 
+![plot](../../content/img/setup-20.png)
 ---
 
 ## Creating Credentials
 
 Next, go back to the credentials page using the menu on the left.
 
-![plot](Images/20.png)
+![plot](../../content/img/setup-21.png)
 
 ---
 
@@ -163,7 +204,7 @@ Next, go back to the credentials page using the menu on the left.
 
 While we are here, we can also generate an API key that can be used for access to publicly available YouTube data using the API. Click on the blue "Create Credentials" button on the top and select "API key".
 
-![plot](Images/27.png)
+![plot](../../content/img/setup-22.png)
 
 ---
 
@@ -171,7 +212,7 @@ While we are here, we can also generate an API key that can be used for access t
 
 We also need an OAuth client ID + secret. Click on the "Oauth 2.0 Client ID" name that you specified before.
 
-![plot](Images/21.png)
+![plot](../../content/img/setup-23.png)
 
 ---
 
@@ -179,7 +220,7 @@ We also need an OAuth client ID + secret. Click on the "Oauth 2.0 Client ID" nam
 
 Congratulations! You now have your credentials! You can see your client ID and secret on the screen that should open now.
 
-![plot](../../content/img/Odyssey4.png)
+![plot](../../content/img/setup-24.png)
 ---
 
 ## Testing Your API Access
@@ -213,7 +254,6 @@ yt_oauth(ID,secret)
 
 In the browser window that opens from your `R` session, select your (new) *Gmail* account.
 
-![plot](Images/23.png)
 
 ---
 
@@ -221,7 +261,7 @@ In the browser window that opens from your `R` session, select your (new) *Gmail
 
 Google warns you that the app has not been verified, but you can trust yourself and click on "Continue".
 
-![plot](Images/24.png)
+
 
 ---
 
@@ -229,7 +269,7 @@ Google warns you that the app has not been verified, but you can trust yourself 
 
 Allow the app (and, hence, yourself) to make changes to the account (you have created).
 
-![plot](Images/25.png)
+
 
 ---
 
@@ -238,7 +278,7 @@ Allow the app (and, hence, yourself) to make changes to the account (you have cr
 Confirm your choices once more by clicking "Allow". Your browser should now display the following message:
 `Authentication complete. Please close this page and return to R`.
 
-![plot](Images/26.png)
+
 
 ---
 
