@@ -13,15 +13,13 @@ layout: true
 ```
 
 ---
-
-
-## Setting up API access to the *YouTube* API
+## Setting up access to the *YouTube* API
  
-To effectively work with *YouTube* data, we need access to its Application Programming Interface (API). As this process, unfortunately, can be a bit tedious, we prepared this preliminary tutorial so you don't have to spend time setting up your API access during the workshop. Please follow this tutorial and check if the setup works before the workshop. If your setup does not work, feel free to contact us before the workshop (the sooner the better) and we'll try to assist you in setting up access to the *YouTube* API. If, for some reason, setting up access to the API does not work for you and we don't find a solution or if you cannot access the API during the workshop, we will have some data prepared that you can then work with in the workshop.
+To work with *YouTube* data, we need access to its Application Programming Interface (API). As this process can be a bit tedious, we prepared this preliminary tutorial so you don't have to spend time setting up your API access during the workshop. Please follow this tutorial and check if the setup works before the workshop. If your setup does not work, feel free to contact us before the workshop (the sooner the better) and we'll assist you in setting up access to the *YouTube* API. If setting up access to the API does not work for you and we don't find a solution or if you can't access the API during the workshop, we will have some data prepared that you can work with in the workshop.
 
 Contact: [annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de)
   
-[HINT](https://en.wikipedia.org/wiki/YouTube): Orange texts in the slides are hyperlinks that you can simply click on
+[HINT](https://en.wikipedia.org/wiki/YouTube): Orange texts in the slides are hyperlinks that you can simply click on.
 
 ---
 
@@ -42,11 +40,13 @@ Contact: [annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de)
 We will explain these steps in detail on the following slides.
 
 ---
+
 ## Google Developer Console
   
 Go to the [Developer Console](https://console.developers.google.com) and log in with your (new) *Google* account. You need to accept the *Google* Developer Terms of Service (ToS). You can deselect the email updates, and click "Agree and continue".
 
-![plot](../../content/img/setup-1.png)
+![plot](../../content/img/setup-01.png)
+
 ---
 
 ## Creating a Project
@@ -149,9 +149,9 @@ Click on "Add or removes scopes" next.
 
 ## Creating Credentials
 
-Use the uppermost checkbox to select all scopes on all pages of the table. *Note*: For this workshop it's sufficient to only select the scopes for the YouTube Data API v3 (which you could do via the filter box), but it is quicker and easier, if you simply select everything. Afterwards, click on "update".
+Use the upper checkbox to select all scopes on all pages of the table. *Note*: For this workshop it's sufficient to only select the scopes for the YouTube Data API v3, but it is quicker and easier if you select everything. Afterwards, click on "update".
 
-![plot](../../content/img/setup-15.png)
+![plot](../../content/img/setup-015.png)
 ---
 
 ## Creating Credentials
