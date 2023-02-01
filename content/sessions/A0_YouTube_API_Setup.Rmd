@@ -254,6 +254,7 @@ yt_oauth(ID,secret)
 
 In the browser window that opens from your `R` session, select your (new) *Gmail* account.
 
+![plot](../../content/img/setup-26.png)
 
 ---
 
@@ -261,7 +262,7 @@ In the browser window that opens from your `R` session, select your (new) *Gmail
 
 Google warns you that the app has not been verified, but you can trust yourself and click on "Continue".
 
-
+![plot](../../content/img/setup-27.png)
 
 ---
 
@@ -269,7 +270,7 @@ Google warns you that the app has not been verified, but you can trust yourself 
 
 Allow the app (and, hence, yourself) to make changes to the account (you have created).
 
-
+![plot](../../content/img/setup-28.png)
 
 ---
 
@@ -278,7 +279,7 @@ Allow the app (and, hence, yourself) to make changes to the account (you have cr
 Confirm your choices once more by clicking "Allow". Your browser should now display the following message:
 `Authentication complete. Please close this page and return to R`.
 
-
+![plot](../../content/img/setup-29.png)
 
 ---
 
@@ -305,16 +306,16 @@ $id
 [1] "HluANRwPyNo"
 
 $viewCount
-[1] "21275354"
+[1] "21452466"
 
 $likeCount
-[1] "1043372"
+[1] "1044454"
 
 $favoriteCount
 [1] "0"
 
 $commentCount
-[1] "37859"
+[1] "36874"
 ```
 ---
 
