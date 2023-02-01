@@ -2,7 +2,7 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Setting Up Access to the YouTube API"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
-date: "February 14th, 2023"
+date: "February 14th-15th, 2023"
 presenter: Everybody
 
 ---
