@@ -90,13 +90,11 @@ lexicon::hash_sentiment_jockers[sample(1:10738,10),]
 - Classified as negative (unpopular, hate)
 ```{r}
 comments$TextEmojiDeleted[6657]
-
 ```
 
 - Classified as positive (genuinely, enjoy)
 ```{r}
 comments$TextEmojiDeleted[260]
-
 ```
 
 ---
@@ -132,7 +130,6 @@ library(syuzhet)
 
 # test simple tagger
 get_sentiment("Superb reasoning, you must be really smart!")
-
 ```
 
 ---
@@ -155,7 +152,7 @@ Checking the documentation for the `get_sentiment()` function reveals that it ca
 
 ## Basic Comment Sentiments
 
-Let's compare the results of the different dictionaries
+Let's compare the results of the different dictionaries (getting the sentiments for NRC can take a while)
 
 ```{r, echo = TRUE, message = FALSE, warning = FALSE}
 # compute sentiment scores with different dictionaries
@@ -206,9 +203,8 @@ ggcorrplot(cor(Sentiments[,c(-5)]),
 ### Basic Comment Sentiments: Jitter Plot
 
 ```{r, echo = FALSE}
-
-
 # transform data into long format
+library(tidyr)
 SentimentsLong <- pivot_longer(Sentiments, !Comment, names_to = "Dictionary", values_to = "Value")
 
 # point jitter plot
@@ -632,6 +628,7 @@ EmojiSentiment[1:5,]
 
 ```{r, echo = TRUE}
 # tokenize the emoji-only column in our formatted dataframe
+library(quanteda)
 EmojiToks <- tokens(tolower(as.character(unlist(comments$Emoji))))
 comments$Text[11167]
 EmojiToks[11167]
