@@ -393,28 +393,16 @@ Once you reach your rate limit, the API will start to send back the following re
 ]
 ---
 
-## Can I Increase my Rate Limit? A "Short" Story
+## How to Increase the Quota
 
-  ![plot](../../content/img/Odyssey4.png)
+- You can pay for quota, but you need a credit card
 
----
+- There is a [form](https://support.google.com/youtube/contact/yt_researcher_certification?hl=en) for researchers to apply for a higher quota, but until 2022, this practically did not work
 
-## Trying to Raise the *YouTube* API Quota
+- The form was improved for research, but it still contains questions regarding the API that are hard to answer (e.g., "How long do you store YouTube API Data?")
 
-- Study that needed large datasets in a short amount of time
+- Nevertheless, it is now worthwhile to give it a try. We were able to increase our daily quota from 10k to 500k.
 
-- RQ: Is there a u-shaped relationship between success and number of uploads?
-
-- Sample: 600 popular channels (identified via SocialBlade) 
-
-- Request for higher quota (October 11, 2019)
-
-- Problem: Same application form for (web) apps and research
-
-- Hard to figure what applies to research and what to write into the form
-
-- Experience: Stuck in an infinite loop with e-mails from *Google* support on this issue
-  
 ---
 
 class: center, middle
