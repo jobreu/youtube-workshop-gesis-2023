@@ -66,6 +66,7 @@ include_graphics("./content/img/youtube_schematic.jpg")
 ## Screen Scraping
 
   ![plot](../../content/img/census.png)
+---
 
 ## Screen Scraping
 
@@ -134,9 +135,6 @@ readLines(curl("https://www.youtube.com/watch?v=1aheRpmurAo/"))
   
   ![plot](../../content/img/YouTube_schematic2_harvesting.png)
 
-```{r api-figure, out.width = "80%", echo=FALSE}
-#include_graphics("./Images/YouTube_schematic2_harvesting.png")
-```
 
 ---
 
