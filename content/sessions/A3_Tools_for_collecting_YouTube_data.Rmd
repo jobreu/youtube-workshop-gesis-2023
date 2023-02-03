@@ -14,7 +14,7 @@ layout: true
 
 ---
 
-## How to collect *YouTube* data
+## How to Collect *YouTube* Data
 
 There are many different ways in which data from *YouTube* and other social media can be collected (see [Breuer et al., 2020](https://journals.sagepub.com/doi/10.1177/1461444820924622)):
 
@@ -23,6 +23,38 @@ There are many different ways in which data from *YouTube* and other social medi
 - Using existing data, such as [*YouNiverse: Large-Scale Channel and Video Metadata from English YouTube*](https://zenodo.org/record/4650046) (also see the accompanying preprint by [Ribeiro & West, 2021](https://arxiv.org/abs/2012.10378))
 
 - Automatically via the *YouTube* API or web scraping
+
+---
+
+## Identifying Relevant Channels
+
+If new data is collected, it is necessary to identify relevant channels and videos for the sample.
+
+
+- [VTracker](https://vtracker.host.ualr.edu/)
+  - Search for and tracking of videos
+  - Useful if there are contentual criteria for channel selection
+
+- [Socialblade](https://socialblade.com/)
+  - Ranked lists of channels
+  - Useful if there are no contentual criteria for channel selection
+
+- [YouTube Channel Crawler](https://channelcrawler.com/)
+  - Search for channels with the help of filters (e.g. language, likes)
+  - Useful if there are no contentual criteria for channel selection
+
+---
+
+## Excluding Problematic Channels
+
+- [YouTube Wiki](https://youtube.fandom.com/de/wiki/YouTube_Wiki)
+  - Social background information on channels (only in German)
+  - Useful to identify reasons for exclusion (e.g., fight between channels)
+  
+If the relevant channels are identified and potentially problematic channels are excluded,
+the next step would be to sample the comments.
+
+Some of the comment sampling tools also offer search functions that can be used in addition to or instead of the tools mentioned above.
 
 ---
 
@@ -75,7 +107,7 @@ Example data source: [Dayum Video](https://www.youtube.com/watch?v=DcJFdCmN98s)
 
 ---
 
-## A note on using FOSS
+## A Note on Using FOSS
 
 The tools listed are free and open source software (FOSS). Using FOSS has many advantages (availability, adaptability, etc.). However, one risk associated with using FOSS is that tools are not maintained anymore and cease to function. After all, people create and maintain these tools in their spare time or as side projects and this work is often not recognized enough (esp. within academia). For this reason it is important to acknowledge the work that goes into these tools by properly citing them.
 
