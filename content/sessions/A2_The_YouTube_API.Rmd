@@ -59,11 +59,13 @@ include_graphics("./content/img/youtube_schematic.jpg")
 - Screen scraping means that we download the HTML text file, which contains the content we are interested in but also a lot of unnecessary clutter that describes how the website should be rendered by the browser
 
   ![plot](../../content/img/youtube_scraping.png)
-```{r, echo=F, out.width = "75%"}
-include_graphics("./content/img/youtube_scraping.png")
-```
+
 
 ---
+
+## Screen Scraping
+
+  ![plot](../../content/img/census.png)
 
 ## Screen Scraping
 
@@ -293,7 +295,7 @@ If you can, use an API, if you must, use screen scraping instead.
 
  We can construct all calls to the API according to the following logic
 
-![plot](Images/API-call-construction.png)
+![plot](../../content/img/API-call-construction.png)
 
 ---
 
@@ -331,7 +333,7 @@ If you can, use an API, if you must, use screen scraping instead.
 
 - The daily quota limit has constantly decreased significantly over the last decade
 
-.center[![plot](Images/RateLimitReduction3.png)]
+.center![plot](../../content/img/RateLimitReduction3.png)
 
 ---
 
