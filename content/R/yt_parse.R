@@ -31,7 +31,7 @@ yt_parse <- function(data){
   source("ExtractEmoji.R")
   source("ReplaceEmoji.R")
 
-  #### Data Preperation
+  #### Data Preparation
 
   # accounting for dataframes without "parentId" column (those scraped with get_comments() instead of get_all_comments())
 
