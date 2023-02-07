@@ -104,7 +104,7 @@ After this course you should be able to...
 
 - Working version of `R` >= 4.0.0 and a recent version of [RStudio](https://rstudio.com/products/rstudio/download/#download)
 
-- Some basic knowledge of `R`  
+- Some basic knowledge of `R` (and, ideally, also the `tidyverse`) 
 
 - Interest in working with *YouTube* data
 
@@ -135,42 +135,6 @@ We also put the PDF versions of the slides and some other materials on the [GESI
 
 - We would kindly ask you to mute your microphones when you are not asking (or answering) a question
 
----
-
-## Preliminaries: Base `R` vs. `tidyverse`
-
-In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`, and  Annika and Ro use both.
-
-.small[
-ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyverse/) and [against](https://blog.ephorie.de/why-i-dont-use-the-tidyverse) using/teaching the `tidyverse`.
-]
-
----
-
-## The `tidyverse`
-
-If you've never seen `tidyverse` code, the most important thing to know is the `%>%` [(pipe) operator](https://magrittr.tidyverse.org/reference/pipe.html). Put briefly, the pipe operator takes an object (which can be the result of a previous function) and pipes it (by default) as the first argument into the next function. This means that `function(arg1 = x)` is equivalent to `x %>% function()`.
-
-It may also be worthwhile to know/remember that `tidyverse` functions normally produce [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe (and most `tidyverse` functions also expect dataframes/tibbles as input to their first argument).
-
----
-
-## The `tidyverse`
-
-If you want a short primer (or need a quick refresher) on the `tidyverse`, you can check out the blog [post by Dominic Royé](https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/). For a more in-depth exploration of the `tidyverse`, you can, e.g., have a look at the [workshop by Olivier Gimenez](https://oliviergimenez.github.io/intro_tidyverse/#1). And the book [*R for Data Science*](https://r4ds.had.co.nz/) by Hadley Wickham and Garrett Grolemund (which is available for free online) provides a very comprehensive introduction to the `tidyverse`.
-
----
-
-## Preliminaries: What's in a name?
-
-Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
-
-```{r cases, out.width = "50%", echo=FALSE}
-include_graphics("https://bookdown.org/joone/ComputationalMethods/img/horst/coding_cases.png")
-```
-.center[
-<small><small>Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)</small></small>
-]
 ---
 
 ## Course schedule
@@ -209,6 +173,61 @@ knitr::kable(
   , align = "cc"
   , escape = FALSE
 )
+```
+
+---
+
+## Preliminaries: Base `R` vs. `tidyverse`
+
+In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`, and  Annika and Ro use both.
+
+.small[
+ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyverse/) and [against](https://blog.ephorie.de/why-i-dont-use-the-tidyverse) using/teaching the `tidyverse`.
+]
+
+---
+
+## Preliminaries: The `tidyverse`
+
+If you've never seen `tidyverse` code, the most important thing to know is the `%>%` [(pipe) operator](https://magrittr.tidyverse.org/reference/pipe.html). Put briefly, the pipe operator takes an object (which can be the result of a previous function) and pipes it (by default) as the first argument into the next function. This means that `function(arg1 = x)` is equivalent to `x %>% function()`.
+
+It may also be worthwhile to know/remember that `tidyverse` functions normally produce [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe (and most `tidyverse` functions also expect dataframes/tibbles as input to their first argument).
+
+---
+
+## Preliminaries: The `tidyverse`
+
+If you want a short primer (or need a quick refresher) on the `tidyverse`, you can check out the blog [post by Dominic Royé](https://dominicroye.github.io/en/2020/a-very-short-introduction-to-tidyverse/). For a more in-depth exploration of the `tidyverse`, you can, e.g., have a look at the [workshop by Olivier Gimenez](https://oliviergimenez.github.io/intro_tidyverse/#1). The book [*R for Data Science*](https://r4ds.had.co.nz/) by Hadley Wickham and Garrett Grolemund (which is available for free online) provides a very comprehensive introduction to the `tidyverse`.
+
+---
+
+## Preliminaries: What's in a name?
+
+Another thing you might notice when looking at our code is that we love `r ji("snake")` as much as `r ji("camel")`.
+
+```{r, case-cartoon, out.width = "80%", echo = F}
+knitr::include_graphics("https://github.com/allisonhorst/stats-illustrations/raw/main/other-stats-artwork/coding_cases.png")
+```
+<small><small>Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations) </small></small>
+
+---
+
+## Disclaimer: API-based methods
+
+In this course, we will focus on getting data via the YouTube (Data) API. Another popular approach for getting data from social media (and other places online) is web scraping.
+
+While YouTube has recently become more open with regard to data access for academic researchers by introducing the [*YouTube Researcher Program*](https://research.youtube/), what happened with the *Facebook* APIs following the Cambridge Analytica case or the recent developments around the *Twitter* API show that relying (exclusively) on platform APIs for data access can be risky.
+
+Accordingly, [Freelon (2018)](https://www.tandfonline.com/doi/abs/10.1080/10584609.2018.1477506?journalCode=upcp20) argues that researchers interested in social media and other internet data should know/learn how to scrape the web in what he calls the "post-API age" (and a [paper by Mancosu & Vegetti, 2020](https://dx.doi.org/10.1177/2056305120940703) makes a similar point).
+
+---
+
+## API vs. web scraping
+
+```{r tweet-scraper, echo = F, out.width="75%"}
+include_tweet("https://twitter.com/schochastics/status/1621628894674657281")
+
+knitr::include_graphics("https://pbs.twimg.com/media/FoEuXYRWIAQhd1g?format=png&name=900x900")
 ```
 
 ---

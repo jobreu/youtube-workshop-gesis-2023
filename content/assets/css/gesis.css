@@ -147,7 +147,7 @@ h1, h2, h3 {
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro');
 .remark-code {
   font-family: 'Source Code Pro', monospace;
-  font-size: 9pt;
+  font-size: 11pt;
 }
 
 a, a > code {

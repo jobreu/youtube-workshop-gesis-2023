@@ -1,7 +1,7 @@
-## YouTube parsing Script
+## YouTube comments parsing script
 
 # Note: This function will only work if the helper functions are in the same directory
-# (CamelCase.R;ExtractEmoji.R;ReplaceEmoji.R)
+# (CamelCase.R; ExtractEmoji.R; ReplaceEmoji.R)
 
 yt_parse <- function(data){
 

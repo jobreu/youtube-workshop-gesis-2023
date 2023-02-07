@@ -15,7 +15,7 @@ layout: true
 ---
 ## Setting up access to the *YouTube* API
  
-To work with *YouTube* data, we need access to its Application Programming Interface (API). As this process can be a bit tedious, we prepared this preliminary tutorial so you don't have to spend time setting up your API access during the workshop. Please follow this tutorial and check if the setup works before the workshop. If your setup does not work, feel free to contact us before the workshop (the sooner the better) and we'll assist you in setting up access to the *YouTube* API. If setting up access to the API does not work for you and we don't find a solution or if you can't access the API during the workshop, we will have some data prepared that you can work with in the workshop.
+To work with *YouTube* data, we need access to its Application Programming Interface (API). As this process can be a bit tedious, we prepared this tutorial, so you don't have to spend time setting up your API access during the workshop. Please follow this tutorial and check if the setup works before the workshop. If your setup does not work, feel free to contact us before the workshop (the sooner the better) and we'll assist you in setting up access to the *YouTube* API. If setting up access to the API does not work for you and we don't find a solution or if you can't access the API during the workshop, we will have some data prepared that you can work with in the workshop.
 
 Contact: [annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de)
   
@@ -33,9 +33,9 @@ Contact: [annika.deubel@cais-research.de](mailto:annika.deubel@cais-research.de)
 - Next, you need to:
   - Sign up for the *Google Developer Console*
   - Create a new project
-  - Activate the Youtube Data API v3
+  - Activate the YouTube Data API v3
   - Create authentication credentials
-  - Test the credentials from R
+  - Test the credentials from `R`
 
 We will explain these steps in detail on the following slides.
 
@@ -133,7 +133,7 @@ On the next screen, select "YouTube Data API v3" and click on the "User Data" ra
 
 ## Creating Credentials
 
-Next, specify an arbitrary app name and enter your (new) *Gmail* address as the user support email and developer contact email. Click "Save and continue" afterwards.
+Next, specify an app name of your choosing and enter your (new) *Gmail* address as the user support email and developer contact email. Click "Save and continue" afterwards.
 
 ![plot](../../content/img/setup-13.png)
 
@@ -141,7 +141,7 @@ Next, specify an arbitrary app name and enter your (new) *Gmail* address as the 
 
 ## Creating Credentials
 
-Click on "Add or removes scopes" next.
+Click on "Add or remove scopes" next.
 
 ![plot](../../content/img/setup-14.png)
 
@@ -164,14 +164,9 @@ Next, click on "Save and continue" to confirm your selection of scopes.
 
 ## Creating Credentials
 
-Select "Desktop App" as the application type and specify the name of you set of credentials (can be any name). Click on "Create" to confirm.
+Select "Desktop App" as the application type and specify the name for the set of credentials (can be anything). Click "Create" to confirm.
 
 ![plot](../../content/img/setup-18.png)
-
----
-
-## Creating Credentials
-
 On the bottom of the page, click "Done" to finalize your changes.
 
 
@@ -229,15 +224,15 @@ You can now safely try whether your *YouTube* API access works as intended by ru
 following commands in `R`. We suggest that you *NOT* save an access token when prompted by `R` (see instructions in code comments)
 
 ```{r eval = FALSE}
-# installing the tuber package if not installed already
+# install the tuber package if not installed already
 if("tuber" %in% installed.packages() != TRUE) {
   install.packages("tuber")
 }
 
-# loading tuber package
+# load the tuber package
 library(tuber)
 
-# Your Credentials (NEVER SHARE THIS INFORMATION)
+# Set your credentials (NEVER SHARE THIS INFORMATION)
 ID <- "ENTER-YOUR-CLIENT-ID-HERE"
 secret <- "ENTER-YOUR-CLIENT-SECRET-HERE"
 
@@ -321,7 +316,6 @@ $commentCount
 
 ## A Few Words of Advice on Handling Your *YouTube API Access*
 
-- Have one account and project ready for the workshop for which you know that it works
 - Do not use your API access too excessively before the workshop to avoid any risk of it being suspended
   
 - Never share your OAuth login credentials or API key! This can easily happen by accident when:
@@ -333,4 +327,4 @@ $commentCount
 ---
 class: center, middle
 
-# We hope that you are now all set up and look forward to seeing you online!
+# We hope that you are now all set up and look forward to seeing you at the workshop!
