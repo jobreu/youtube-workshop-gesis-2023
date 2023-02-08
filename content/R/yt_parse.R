@@ -3,7 +3,7 @@
 # Note: This function will only work if the helper functions are in the same directory
 # (CamelCase.R; ExtractEmoji.R; ReplaceEmoji.R)
 
-yt_parse <- function(data){
+yt_parse <- function(data, package = "tuber"){
 
   #### Setup
 
@@ -32,19 +32,28 @@ yt_parse <- function(data){
   source("ReplaceEmoji.R")
 
   #### Data Preparation
-
-  # accounting for dataframes without "parentId" column (those scraped with get_comments() instead of get_all_comments())
-
-  if (is.null(data$parentId)) {
-
-    parentId <- rep(NA,dim(data)[1])
-    data <- cbind.data.frame(data,parentId)
-
-  }
-
-  # only keeping the relevant columns
+  
+  # enable use with comments collected using vosonSML
+  
+  if (package == "vosonSML"){
+    data <- data[,c("AuthorDisplayName","Comment","LikeCount","PublishedAt","UpdatedAt","ParentID","CommentID")]
+    names(data) <- c("authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")
+  } else {
+    
+  # tuber data: only keep the relevant columns
   data <- data[,c("authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")]
 
+  }
+  
+  # account for dataframes without "parentId" column (those scraped with get_comments() instead of get_all_comments())
+  
+  if (is.null(data$parentId)) {
+    
+    parentId <- rep(NA,dim(data)[1])
+    data <- cbind.data.frame(data,parentId)
+    
+  }
+  
   # convert dataframe columns to proper types
   data$authorDisplayName <- as.character(data$authorDisplayName)
   data$textOriginal <- as.character(data$textOriginal)
