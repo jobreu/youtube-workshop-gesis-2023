@@ -89,12 +89,12 @@ lexicon::hash_sentiment_jockers[sample(1:10738,10),]
 
 - Classified as negative (unpopular, hate)
 ```{r}
-comments$TextEmojiDeleted[6657]
+comments$TextEmojiDeleted[7088]
 ```
 
 - Classified as positive (genuinely, enjoy)
 ```{r}
-comments$TextEmojiDeleted[260]
+comments$TextEmojiDeleted[935]
 ```
 
 ---
@@ -307,10 +307,10 @@ Because longer comments also contain more words, they have a higher likelihood o
 
 ```{r, echo = TRUE, results = 'hide'}
 # Very positively scored comment
-comments$TextEmojiDeleted[6704]
+comments$TextEmojiDeleted[7135]
 
 # Very negatively scored comment
-comments$TextEmojiDeleted[29952]
+comments$TextEmojiDeleted[29916]
 
 ```
 
@@ -363,12 +363,15 @@ comments$SentimentPerWord <- comments$Sentiment / comments$Words
 head(comments$TextEmojiDeleted[comments$Sentiment ==
                                  max(comments$SentimentPerWord,
                                      na.rm = T)],1)
-
+```
+When i was like 8 or 7 i liked this movie
+```{r, echo = TRUE, results = 'hide'}
 # most negative comment
 head(comments$TextEmojiDeleted[comments$Sentiment ==
                                  min(comments$SentimentPerWord,
                                       na.rm = T)],1)
 ```
+2017 was fucking wild
 
 ---
 
@@ -517,7 +520,7 @@ Let's check for which comments we get large differences between the two methods.
 # illustrate scoring differences
 Diff_comments <- comments[order(-abs(comments$SentiDiff)),
                           ][c(2,12:18)]
-comments[c(4440,2839,37718,136),c(2, Syuzhet = 12, SentimentR = 17)]
+Diff_comments[c(1,2,3,4), c(8, Syuzhet = 2, SentimentR = 7, 1)]
 ```
 
 ---
@@ -604,7 +607,7 @@ By comparison, our data looks like this:
   
 ```{r, echo = TRUE}
 # example from our data 
-comments$TextEmojiReplaced[5546]
+comments$TextEmojiReplaced[5999]
 ```
 
 ---
@@ -630,8 +633,8 @@ EmojiSentiment[1:5,]
 # tokenize the emoji-only column in our formatted dataframe
 library(quanteda)
 EmojiToks <- tokens(tolower(as.character(unlist(comments$Emoji))))
-comments$Text[11167]
-EmojiToks[11167]
+comments$Text[11557]
+EmojiToks[11557]
 ```
 
 ---
@@ -647,8 +650,8 @@ EmojiSentDict <- as.dictionary(EmojiSentiment[,1:2])
 # replace emoji with sentiment scores
 EmojiToksSent <- tokens_lookup(x = EmojiToks,
                                dictionary = EmojiSentDict)
-comments$Text[11167]
-EmojiToksSent[11167]
+comments$Text[11557]
+EmojiToksSent[11557]
 ```
 
 
@@ -675,7 +678,7 @@ MeanEmojiSentiments <- function(x){
 MeanEmojiSentiment <- lapply(AllEmojiSentiments,MeanEmojiSentiments)
 MeanEmojiSentiment[MeanEmojiSentiment == 0] <- NA
 MeanEmojiSentiment <- unlist(MeanEmojiSentiment)
-MeanEmojiSentiment[11167]
+MeanEmojiSentiment[11557]
 ```
 ]
   
