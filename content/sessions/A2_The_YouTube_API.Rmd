@@ -49,9 +49,7 @@ or send information to the database
 ## Interaction with the Data
 
   ![plot](../../content/img/YouTube_schematic2.png)
-```{r, echo=F, out.width = "75%"}
-include_graphics("./content/img/youtube_schematic.jpg")
-```
+
 ---
 
 ## Screen Scraping
@@ -199,8 +197,8 @@ api_response <- fromJSON(curl("https://www.googleapis.com/
   - Not every API has a (good) documentation
   
 ---
-class: inverse, middle, center
-# Screen Scraping vs. API-Harvesting
+
+## Screen Scraping vs. API-Harvesting
 
 If you can, use an API, if you must, use screen scraping instead.
 
@@ -328,7 +326,6 @@ If you can, use an API, if you must, use screen scraping instead.
 ## API Rate Limits
 
 - With the API, you have a limit of how much data you can get
-
 - The daily quota limit has constantly decreased significantly over the last decade
 
 .center![plot](../../content/img/RateLimitReduction3.png)
@@ -359,9 +356,9 @@ If you can, use an API, if you must, use screen scraping instead.
 
 - You can see how much of your quota you have already used up in the [*Google* Developer Console](https://console.developers.google.com/iam-admin/quotas?authuser=3&project=)
 
-![plot](Images/QuotaLimit_cut.png)
+![plot](../../content/img/QuotaLimit_cut.png)
 
-#![plot](Images/Metrics.png)
+#![plot](../../content/img/Metrics.png)
 
 ---
 
