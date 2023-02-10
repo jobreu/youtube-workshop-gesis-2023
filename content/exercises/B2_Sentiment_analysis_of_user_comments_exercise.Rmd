@@ -30,7 +30,13 @@ If your `R` version is < 4.0.0, you need to use the `options()` function to prev
 # prevent R from interpreting characters as factors
 options(stringsAsFactors = FALSE)
 
+# load packages
+library(syuzhet)
+library(sentimentr)
+
 # load data
+# after downloading the file from ILIAS, you need to rename it so that it ends with .rds
+# you may also need to adapt the file path of the following command to the path on your computer
 comments <- readRDS("./content/data/ParsedLWTComments.rds")
 
 ```
@@ -42,7 +48,7 @@ Chose the appropriate column from your `comments` dataframe and run a basic sent
 ```
 
 ```{block, opts.label = "clues"}
-Hyperlinks and emojis might cause problems for the sentiment analysis (or any text mining methods, really). You can, check whether a variable contains a given value x using the following command `table(variable == x)` (with variable and x replaced by the appropriate variable name and value, of course).
+Hyperlinks and emojis might cause problems for the sentiment analysis (or any text mining methods, really). You can check whether a variable contains a given value x using the following command `table(variable == x)` (with variable and x replaced by the appropriate variable name and value, of course).
 
 ```
 
@@ -54,7 +60,7 @@ BasicSentimentSyu <- get_sentiment(comments$TextEmojiDeleted)
 table(BasicSentimentSyu == 0)
 
 # examples
-comments$Text[BasicSentimentSyu == 0][c(681,652)]
+comments$Text[BasicSentimentSyu == 0][c(17,74)]
 
 ```
 
