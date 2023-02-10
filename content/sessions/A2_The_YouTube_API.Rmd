@@ -47,23 +47,35 @@ or send information to the database
 
 ---
 ## Interaction with the Data
+```{r, echo=FALSE}
+woRkshoptools::include_picture("YouTube_schematic2.png")
 
-  ![plot](../../content/img/YouTube_schematic2.png)
+```
+
+
 
 ---
 
 ## Screen Scraping
 
 - Screen scraping means that we download the HTML text file, which contains the content we are interested in but also a lot of unnecessary clutter that describes how the website should be rendered by the browser
+```{r, echo=FALSE, out.wdith="70%"}
+woRkshoptools::include_picture("youtube_scraping.png")
 
-  ![plot](../../content/img/youtube_scraping.png)
+```
+
 
 
 ---
 
 ## Screen Scraping
 
-  ![plot](../../content/img/census.png)
+```{r, echo=FALSE}
+woRkshoptools::include_picture("census.png")
+
+```
+
+
 ---
 
 ## Screen Scraping
@@ -131,7 +143,12 @@ readLines(curl("https://www.youtube.com/watch?v=1aheRpmurAo/"))
   - is a voluntary service provided by the platform
   - controls what information is accessible, to whom, how, and in which quantities
   
-  ![plot](../../content/img/YouTube_schematic2_harvesting.png)
+  
+```{r, echo=FALSE, out.width="70%"}
+woRkshoptools::include_picture("YouTube_schematic2_harvesting.png")
+
+```
+
 
 
 ---
@@ -290,8 +307,11 @@ If you can, use an API, if you must, use screen scraping instead.
 ## Constructing API calls
 
  We can construct all calls to the API according to the following logic
+ 
+```{r, echo=FALSE}
+woRkshoptools::include_picture("API-call-construction.png")
 
-![plot](../../content/img/API-call-construction.png)
+```
 
 ---
 
@@ -328,7 +348,12 @@ If you can, use an API, if you must, use screen scraping instead.
 - With the API, you have a limit of how much data you can get
 - The daily quota limit has constantly decreased significantly over the last decade
 
-.center![plot](../../content/img/RateLimitReduction3.png)
+```{r, echo=FALSE, out.width="65%"}
+
+woRkshoptools::include_picture("RateLimitReduction3.png")
+
+```
+
 
 ---
 
@@ -356,9 +381,12 @@ If you can, use an API, if you must, use screen scraping instead.
 
 - You can see how much of your quota you have already used up in the [*Google* Developer Console](https://console.developers.google.com/iam-admin/quotas?authuser=3&project=)
 
-![plot](../../content/img/QuotaLimit_cut.png)
+```{r, echo=FALSE}
+woRkshoptools::include_picture("QuotaLimit_cut.png")
 
-#![plot](../../content/img/Metrics.png)
+woRkshoptools::include_picture("Metrics.png")
+```
+
 
 ---
 
