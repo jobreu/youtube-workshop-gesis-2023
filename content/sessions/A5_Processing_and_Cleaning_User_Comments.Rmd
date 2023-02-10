@@ -1,0 +1,597 @@
+---
+title: "Automatic Sampling and Analysis of YouTube Data"
+subtitle: "Processing & cleaning user comments"
+author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
+date: "February 14th, 2023"
+presenter: Johannes
+
+---
+
+layout: true
+
+```{r child = "./content/config/sessions_setup.Rmd"}
+```
+
+---
+
+## Pre-processing
+
+- Pre-processing refers to all steps that are necessary for preparing data for analysis
+
+--
+
+- For web data, this is often more involved than, e.g., for survey data because:
+  - the data were not designed with our analysis in mind
+  - the data are typically less structured
+  - the data are typically more heterogeneous
+  - the data are typically larger
+  
+--
+  
+- *Note*: In addition, with large amounts of data, it is often necessary to work on servers or clusters instead of regular desktop or laptop computers. Even then, depending on the data set size and the complexity of the pre-processing steps, these can potentially take several hours or even days.
+
+---
+
+## Pre-processing *YouTube* comments
+
+
+- The `tuber` package returns an `R` dataframe instead of a `JSON` file (as the *YouTube* Data API v3 does)
+
+- However, before we can analyze the comments, we need to:
+  - select
+  - format
+  - extract
+  - link
+
+*Note*. For single videos, the data are small enough to be processed on a regular desktop/laptop computer, but this may not be the case if we have many videos with a high number of comments.
+
+
+---
+
+## Pre-processing *YouTube* Comments
+
+For this session, we will use comments from the Emoji Movie Trailer <br>
+(https://www.youtube.com/watch?v=r8pJt4dK_s4)
+
+```{r emoji-img, echo=FALSE, out.width="80%"}
+woRkshoptools::include_picture("EmojiMovie.png")
+```
+
+---
+
+## Acknowledgment `r ji("clapping_hands")`
+
+Almost all of the code we present in this session was written by [Julian Kohne](https://www.juliankohne.com/) who taught the workshop with Johannes and Ro in 2020, 2021, and 2022.
+
+---
+
+## Understanding Your Data (1)
+
+The first step is always to explore your data. This is especially crucial for so-called *found data* because they were not designed for research purposes.
+
+```{r read-data}
+# load raw data
+comments <- readRDS("./data/RawEmojiComments.rds")
+# You may want/have to adjust the path (depending on your working directory)
+
+# list all column names
+colnames(comments)
+```
+
+Luckily, the *YouTube* Data API has good [documentation](https://developers.google.com/youtube/v3/docs/comments) that includes brief descriptions of all the pieces of information that you can extract from it.
+
+---
+
+## Understanding Your Data (2)
+
+This information is valuable for understanding what type of comments the dataframe contains...
+
+```{r replies}
+table(is.na(comments$parentId))
+```
+
+.small[
+From the *YouTube* Data API documentation:
+
+**parentID**: *The unique ID of the parent comment. This property is only set if the comment was submitted as a reply to another comment.*
+]
+
+---
+
+## Understanding Your Data (3)
+
+... knowing how specific data types are formatted...
+
+```{r dateformat}
+head(comments$publishedAt)
+class(comments$publishedAt)
+```
+
+.small[
+From the *YouTube* Data API documentation:
+
+**publishedAt**: *The date and time when the comment was originally published. The value is specified in ISO 8601 (YYYY-MM-DDThh:mm:ss.sZ) format.*
+]
+
+---
+
+## Understanding Your Data (4)
+
+... or how similarly named variables differ from each other
+
+```{r textOriginal}
+comments$textOriginal[673]
+```
+
+```{r textDisplay, results='hide'}
+comments$textDisplay[673]
+
+```
+
+```{r display-comment, echo=FALSE}
+unlist(strsplit(comments$textDisplay[673],"(?<=\\?)", perl=TRUE))
+
+```
+
+.small[
+From the *YouTube* Data API documentation:
+
+**textOriginal**: *The original, raw text of the comment as it was initially posted or last updated. The original text is only returned if it is accessible to the authenticated user, which is only guaranteed if the user is the comment's author.*
+
+**textDisplay**: *The comment's text. The text can be retrieved in either plain text or HTML (...) Note that even the plain text may differ from the original comment text. For example, it may replace video links with video titles.*
+]
+
+---
+
+## Selecting What You Need
+
+Now, we can select only those variables that we need for our analysis.
+
+```{r subset, cache=TRUE}
+Selection <- subset(comments,select = -c(authorProfileImageUrl,
+                                         authorChannelUrl,
+                                         authorChannelId.value,
+                                         videoId,
+                                         canRate,
+                                         viewerRating,
+                                         moderationStatus))
+colnames(Selection)
+
+```
+
+**Word of advice**: Always keep an unaltered copy of your raw data that you should not delete or overwrite. Save your processed data in a separate file (or in multiple steps and versions if your pre-processing pipeline is complex).
+
+---
+
+## Formatting your Data
+
+By default, the data you get with `tuber` is not in the right format for most analyses.
+
+```{r class}
+sapply(Selection, class)
+```
+
+```{r summary-likes}
+# summary statistics for like counts
+summary(Selection$likeCount)
+```
+
+```{r timediff-error, error = TRUE}
+# time difference between first comment and now
+Sys.time() - Selection$publishedAt[1]
+```
+
+---
+
+## Formatting the `likeCount`
+
+We want the `likeCount` to be a numeric variable.
+
+```{r likeCount, cache=TRUE}
+# transform likeCount to numeric
+# (NB: this overwrites the original column)
+Selection$likeCount <- as.numeric(Selection$likeCount)
+
+# check
+summary(Selection$likeCount)
+```
+
+---
+
+## Formatting Timestamps
+
+The variables `publishedAt` & `updatedAt` should be datetime objects.
+
+```{r time-last-comment}
+# transform timestamps to datetime objects
+Selection$publishedAt[1]
+time_last_comment <- as.POSIXct(Selection$publishedAt[1],
+                                format = "%Y-%m-%dT%H:%M:%OSZ",
+                                tz = "UTC")
+time_last_comment
+
+# test whether we can compute a difference
+# with the datetime object
+Sys.time() - time_last_comment
+```
+
+---
+
+## Word of Caution About Timestamps
+
+Timestamps are extremely complex objects due to:
+ - Different calendars
+ - Different formatting
+ - Different time zones
+ - Historical anomalies
+ - Different resolutions
+ - Summer vs. winter time (differences between countries)
+ - Leap years
+ - [etc.](https://www.youtube.com/watch?v=-5wpm-gesOY)
+
+---
+
+## Formatting Timestamps (3)
+
+A convenient way of transforming datetime variables is the [`anytime` package](https://github.com/eddelbuettel/anytime) (another powerful option for dealing with times and dates in `R` is the [`lubridate` package](https://lubridate.tidyverse.org/) from the `tidyverse`). Its main function is also called `anytime()` and it automatically tries to guess the format from the character string.
+
+```{r anytime, cache=TRUE}
+# transform datetimes using anytime()
+library(anytime)
+
+Selection$publishedAt <- anytime(Selection$publishedAt,
+                                 asUTC = TRUE)
+
+Selection$updatedAt <- anytime(Selection$updatedAt,
+                               asUTC = TRUE)
+class(Selection$publishedAt)
+class(Selection$updatedAt)
+```
+
+**Word of Advice**: For datetime conversions, always do some sanity checks, especially if you are using methods that automatically detect the format. Pay special attention to the *timezone* in which your data are saved.
+
+---
+
+## Formatting Timestamps (4)
+
+Be aware of how to interpret your timestamps. Note that the date was interpreted as UTC but converted to our local CET timezone, which is 1 hour ahead of UTC. This comment was made at 18:13:46 in *our timezone*, but we have no idea about the time at the location of the user.
+
+```{r tz-conversion}
+Selection$publishedAt[1]
+```
+ 
+---
+
+## Processing the Comments Text
+
+After having formatted all our selected columns, we typically want to create new variables containing information that is not directly available in the raw data. For example, consider the following comments:
+
+```{r comment-examples}
+# Example comments with extractable information
+strwrap(Selection$textOriginal[37245],79)
+Selection$textOriginal[691]
+```
+
+---
+
+## Processing the Comments Text
+
+Thes previous examples illustrate two things:
+
+1) Comments can contain emojis and hyperlinks that might distort our text analysis.
+
+2) These are features that we might want to have in separate variables for further analysis.
+
+---
+
+## Extracting Hyperlinks (1)
+
+We start with deleting hyperlinks from our text and saving them in a separate column. We will use the
+text mining package [`qdapRegex`](https://github.com/trinker/qdapRegex) for this as it has predefined routines for handling large text vectors and [regular expressions](https://en.wikipedia.org/wiki/Regular_expression).
+
+```{r hyperlinks, message=FALSE, echo = TRUE, cache=TRUE}
+# Note that we are using the original text so we don't have
+# to deal with the HTML formatting of the links
+library(qdapRegex)
+Links <- rm_url(Selection$textOriginal, extract = TRUE)
+LinkDel <- rm_url(Selection$textOriginal)
+head(Links[!is.na(Links)],3)
+```
+
+---
+
+## Extracting Hyperlinks (2)
+
+We get a list where each element corresponds to one row in the `Selection` dataframe and contains a vector of links that were contained in the `textOriginal` column. We also created the new vector `LinkDel`that contains the comment text without URLs.
+
+
+```{r orig-url-comment}
+strwrap(Selection$textOriginal[37245],79)
+```
+
+```{r urls-extracted}
+LinkDel[37245]
+Links[[37245]]
+```
+
+---
+
+## Extracting Emojis (1)
+
+The `qdapRegex` package has a lot of other different predefined functions for extracting or removing certain kinds of strings:
+  - `rm_citation()`
+  - `rm_date()`
+  - `rm_phone()`
+  - `rm_postal_code()`
+  - `rm_email()`
+  - `rm_dollar()`
+  - `rm_emoticon()`
+  
+Unfortunately, it does **not** contain a predefined method for emojis, so we will have to come up with our own method for extracting them.
+
+---
+
+## Extracting Emojis (2)
+
+The first step in our emoji processing is replacing the emojis with a textual description, so that we can treat it just like any other token in text mining.
+
+Essentially, we want to replace this:
+
+```{r emo-smile, echo = FALSE}
+emo::ji("smile")
+```
+
+with this
+
+```{r emo-string, echo = FALSE}
+"EMOJI_GrinningFaceWithSmilingEyes"
+```
+
+---
+
+## Extracting Emojis (3)
+
+First of all, we need a dataframe that contains the emojis in the way in which they are internally represented by `R` (this means dealing with character encoding which can be a [pain](https://dss.iq.harvard.edu/blog/escaping-character-encoding-hell-r-windows)). Lucky for us, this information is contained in the [`emo` package](https://github.com/hadley/emo).
+
+```{r jis, warning=FALSE}
+library(emo)
+EmojiList <- jis
+EmojiList[1:3,c(1,3,4)]
+```
+
+---
+
+## Extracting Emojis (4)
+
+Next, we need to paste the names of the emojis together, capitalizing the first letter of every word for better readability.
+
+```{r capital-emo}
+# Define a function for capitalizing and pasting names together
+simpleCap <- function(x) {
+
+  # Split the string
+  splitted <- strsplit(x, " ")[[1]]
+
+  # Paste it back together with capital letters
+  paste(toupper(substring(splitted, 1,1)),
+        substring(splitted, 2),
+        sep = "",
+        collapse = " ")
+}
+  
+```
+
+---
+
+## Extracting Emojis (5)
+
+```{r emo-text-all}
+# Apply the function to all emoji names
+CamelCaseEmojis <- lapply(jis$name, simpleCap)
+CollapsedEmojis <- lapply(CamelCaseEmojis,
+                          function(x){gsub(" ",
+                                           "",
+                                           x,
+                                           fixed = TRUE)})
+EmojiList[,4] <- unlist(CollapsedEmojis)
+EmojiList[1:3,c(1,3,4)]
+```
+
+---
+
+## Extracting Emojis (6)
+
+After that, we need to order our dictionary from the longest to shortest string to prevent partial matching of shorter strings later.
+
+```{r order-emo-strings}
+EmojiList <- EmojiList[rev(order(nchar(jis$emoji))),]
+head(EmojiList[,c(1,3,4)],5)
+```
+
+Note that what we are ordering by the `emoji` column, not the `name` or `runes` columns.
+
+---
+
+## Extracting Emojis (7)
+
+Now we can `loop` through all emojis in the comments and replace them consecutively in each comment (*note*: this may take a while).
+
+```{r emo-loop, warning = FALSE, cache=TRUE}
+
+# Assign the comments vector without URLs to a new object
+TextEmoRep <- LinkDel
+
+# Loop over all emojis for all comments in the new object/vector
+for (i in 1:dim(EmojiList)[1]) {
+
+  TextEmoRep <- rm_default(TextEmoRep,
+                  pattern = EmojiList[i,3],
+                  replacement = paste0("EMOJI_",
+                                       EmojiList[i,4],
+                                       " "),
+                  fixed = TRUE,
+                  clean = FALSE,
+                  trim = FALSE)
+}
+
+```
+
+---
+
+## Extracting Emojis (8)
+
+The resulting output is a large character vector in which the emojis are replaced by textual descriptions.
+
+```{r text-orig}
+Selection$textOriginal[910]
+```
+
+```{r text-nemo, results='hide'}
+TextEmoRep[910]
+```
+
+```{r text-nemo-print,  echo = FALSE}
+unlist(strsplit(TextEmoRep[910],":",fixed=TRUE))
+```
+
+---
+
+## Extracting Emoji Descriptions
+
+```{r extract-emo-func}
+ExtractEmoji <- function(x){
+
+  SpacerInsert <- gsub(" ","[{[SpAC0R]}]", x)
+  ExtractEmoji <- rm_between(SpacerInsert,
+                             "EMOJI_","[{[SpAC0R]}]",
+                             fixed = TRUE,
+                             extract = TRUE,
+                             clean = FALSE,
+                             trim = FALSE,
+                             include.markers = TRUE)
+  
+  UnlistEmoji <- unlist(ExtractEmoji)
+  DeleteSpacer <- sapply(UnlistEmoji,
+                         function(x){gsub("[{[SpAC0R]}]",
+                                          " ",
+                                          x,
+                                          fixed = TRUE)})
+  
+  names(DeleteSpacer) <- NULL
+  Emoji <- paste0(DeleteSpacer, collapse = "")
+  return(Emoji)
+}
+
+```
+
+---
+
+## Extracting Emojis Function
+
+We can apply the function to create a new vector containing only the emojis as textual descriptions.
+
+```{r apply-emo-func, cache=TRUE}
+Emoji <- sapply(TextEmoRep,ExtractEmoji)
+names(Emoji) <- NULL
+LinkDel[910]
+Emoji[910]
+```
+
+---
+
+## Removing Emojis
+
+In addition, we remove the emojis from the `LinkDel` variable to get one "clean" text column (i.e., without hyperlinks & emojis).
+
+```{r rm-emo}
+# Remove emojis from the LinkDel vector
+LinkDel[910]
+TextEmoDel <- ji_replace_all(LinkDel,"") # function from the emo pkg
+TextEmoDel[910]
+```
+
+---
+
+## Summary: Extracting Information
+
+We now have different versions of our text column
+
+1) The original one, with hyperlinks and emojis (`Selection$textOriginal`)
+
+2) One with only plain text and without hyperlinks and emojis (`TextEmoDel`)
+
+3) One with only hyperlinks (`Links`)
+
+4) One with only emojis (`Emoji`)
+
+Next, we want to integrate all of them into our dataframe.
+
+---
+
+## Linking Everything Back Together
+
+We can now combine our dataframe with the additional variables we have created. **NB**: because we sometimes have more than two links or two emojis per comment, we need to use the `I()` function so we can put them in the dataframe "as is" (for later analyses, we will have to unlist these columns rowwise if we want to use them). 
+
+```{r combine}
+df <- cbind.data.frame(Selection$authorDisplayName,
+                       Selection$textOriginal,
+                       TextEmoRep,
+                       TextEmoDel,
+                       Emoji = I(Emoji),
+                       Selection$likeCount,
+                       Links = I(Links),
+                       Selection$publishedAt,
+                       Selection$updatedAt,
+                       Selection$parentId,
+                       Selection$id,
+                       stringsAsFactors = FALSE)
+```
+
+---
+
+## Linking Everything Back Together
+
+As a final step, we can give the columns appropriate names and save the dataframe for later use
+
+```{r rename}
+
+# set column names
+names(df) <- c("Author",
+               "Text",
+               "TextEmojiReplaced",
+               "TextEmojiDeleted",
+               "Emoji",
+               "LikeCount",
+               "URL",
+               "Published",
+               "Updated",
+               "ParentId",
+               "CommentID")
+```
+
+```{r save-df, eval=FALSE}
+saveRDS(df, file = "./data/ParsedEmojiComments.rds")
+# You may want/have to adjust the path (depending on your working directory)
+```
+
+---
+
+## One Function to Parse Them All!
+
+We (i.e., mostly Julian Kohne) have created a function that combines all of the pre-processing steps presented in this session. It is stored in the file `yt_parse.R` (which you can find in the folder `content\R` in the workshop materials).
+
+**NB**: This function will only work if the helper functions are in the same directory (i.e., the scripts named `CamelCase.R`, `ExtractEmoji.R`, & `ReplaceEmoji.R`).
+
+*Note*: The function `yt_parse()` also contains an option for processing comments collected with the `vosonSML` package. To make use of this, the function argument `package` must be `="vosonSML`.
+
+```{r voson-parse, eval=FALSE}
+yt_parse(package = "vosonSML")
+```
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A5_Preprocessing_and_cleaning_user_comments.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/AExercise_A5_Preprocessing_and_cleaning_user_comments.html)

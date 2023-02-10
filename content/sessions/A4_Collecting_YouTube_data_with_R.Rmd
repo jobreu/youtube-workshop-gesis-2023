@@ -1,6 +1,6 @@
 ---
 title: "Automatic Sampling and Analysis of YouTube Data"
-subtitle: "Introduction"
+subtitle: "Collecting YouTube data with R"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
 date: "February 14th, 2023"
 presenter: Johannes
