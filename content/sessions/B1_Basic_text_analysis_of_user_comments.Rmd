@@ -103,7 +103,7 @@ weekly_comments <- FormattedComments %>%
 PercTimes <- round(quantile(cumsum(FormattedComments$counter), 
                             probs = c(0.5, 0.75, 0.9, 0.99)))
 ```
-
+# The final line computes the cumulative count quantiles (50th, 75th, 90th, and 99th percentiles) of the comments and rounds the result to the nearest integer
 ---
 
 ## Comments Over Time: Plot
@@ -176,14 +176,14 @@ FormattedComments %>%
 
 Which comments received the highest number of likes?
 
-.smaller[
+
 ```{r comments-likes-output, echo = F}
 FormattedComments %>% 
   arrange(-LikeCount) %>% 
   head(10) %>% 
   select(Text, LikeCount, Published)
 ```
-]
+
 
 ---
 
@@ -311,7 +311,7 @@ head(TermFreq, n = 20)
 We may want to remove additional words (that are not included in the stopwords list) if we consider them irrelevant for our analyses.
 
 ```{r custom-stops}
-custom_stopwords <- c("nom", "just", "one", "ߘ")
+custom_stopwords <- c("nom", "just", "one")
 commentsDfm <- dfm(toks, remove = c(quanteda::stopwords("english"),
                                     custom_stopwords))
 TermFreq <- textstat_frequency(commentsDfm)
@@ -350,14 +350,6 @@ wordcloud(words = TermFreq$feature,
 ```
 
 ---
-
-## Don't Let Your Words Cloud Your Plots!
-
-```{r wc-tweet, echo = F}
-tweet_embed("https://twitter.com/chainsawriot/status/1362370460294524931",
-            theme = "dark",
-            align = "center")
-```
 
 *Note*: To catch up with the state-of-the-art in text analysis, you can check out the [blog post "Top 5 most important textual analysis methods papers of the year 2020"](https://chainsawriot.com/mannheim/2021/12/22/most2020.html) by [Chung-hong Chan](https://github.com/chainsawriot). 
 
