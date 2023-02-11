@@ -176,14 +176,14 @@ FormattedComments %>%
 
 Which comments received the highest number of likes?
 
-
+.smaller[
 ```{r comments-likes-output, echo = F}
 FormattedComments %>% 
   arrange(-LikeCount) %>% 
   head(10) %>% 
   select(Text, LikeCount, Published)
 ```
-
+]
 
 ---
 
@@ -348,10 +348,6 @@ wordcloud(words = TermFreq$feature,
           rot.per = 0.35,
           colors = brewer.pal(8, "Dark2"))
 ```
-
----
-
-*Note*: To catch up with the state-of-the-art in text analysis, you can check out the [blog post "Top 5 most important textual analysis methods papers of the year 2020"](https://chainsawriot.com/mannheim/2021/12/22/most2020.html) by [Chung-hong Chan](https://github.com/chainsawriot). 
 
 ---
 
