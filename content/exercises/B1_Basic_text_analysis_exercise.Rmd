@@ -11,7 +11,7 @@ In the following exercises, we will use the data you have collected and preproce
 
 First we need to load the parsed comments data (**NB**: You might have to adjust the following code to use the correct file path on your computer).
 
-```{r load-data}
+```{r load-data, eval=F}
 comments <- readRDS("../data/ParsedLWTComments.rds")
 ```
 
@@ -55,7 +55,7 @@ Which are the 20 most frequently used words in the comments on the video "The Ce
 You can use the function `textstat_frequency()` from the `quanteda.textstats` package to answer this question. 
 ```
 
-```{block, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
+```{r, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
 library(quanteda.textstats)
 
 term_freq <- textstat_frequency(comments_dfm)
@@ -99,7 +99,7 @@ The solution is essentially the same as the one for the first task in this exerc
 ```
 
 
-```{block, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
+```{r, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
 EmojiFreq <- textstat_frequency(EmojiDfm)
 head(EmojiFreq, n = 10)
 ```
@@ -113,7 +113,7 @@ The solution is essentially the same as the one for the second task in this exer
 ```
 
 
-```{block, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
+```{r, box.title = "Solution", solution = TRUE, box.icon = "fa-check"}
 EmojiFreq  %>% 
   arrange(-docfreq) %>% 
   head(10)
@@ -124,15 +124,15 @@ If you're finished with tasks 1-4 and/or want to do/try out something else, you 
 **Bonus Bonus**: Alternatively or additionally, you can also try to recreate the [emoji plot approach by Emil Hvitfeldt](https://www.emilhvitfeldt.com/post/2020-01-02-real-emojis-in-ggplot2/).
 ```
 
-```{r source mapping function}
-source("../Scripts/emoji_mapping_function.R")
+```{r source mapping function, eval=F}
+source("../../content/R/emoji_mapping_function.R")
 ```
 
 ```{block, opts.label = "clues"}
 You need to add the mapping objects to your plot. To see how you can construct the plot, you can have a look at slide #31 from the session on *Basic Text Analysis of User Comments*.
 ```
 
-```{r emoji-plot, solution = TRUE}
+```{r emoji-plot, solution = TRUE, out.width="80%"}
 create_emoji_mappings(EmojiFreq, 10)
 
 EmojiFreq %>% 
