@@ -2,8 +2,8 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Excursus: Retrieving Video Subtitles"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
-presenter: Everybody
+date: "February 15th, 2023"
+presenter: Ro
 
 ---
 layout: true
@@ -11,16 +11,14 @@ layout: true
 ```{r child = "./content/config/sessions_setup.Rmd"}
 ```
 
-<!-- START HERE WITH SLIDES -->
-
 ---
 
 
 ## Retrieving *YouTube* Video Subtitles
 
-- Instead of transcribing a video, you can retrieve its subtitles via the *YouTube* API
+Instead of manually transcribing a video, you can retrieve its subtitles via the *YouTube* API.
 
-- What research would you conduct with video subtitles?
+What research could/would you conduct with video subtitles?
 
 ---
 
@@ -32,13 +30,13 @@ layout: true
 
   - Can be downloaded, but text quality can be bad (especially if translated)
 
-- Videos without any subtitles
+- Videos without any subtitles?
 
-  - Not sure if even possible because there always seems to be an <i>ASR</i>
+  - There always seems to be an <i>ASR</i>
   
 - Videos with more than one set of subtitles
 
-  - Examples: <i>ASR</i> and regular subtitle, more than one language, more than one subtitle for the same language
+  - Examples: <i>ASR</i> and regular subtitles, more than one language, more than one subtitle for the same language
 
   - Can be downloaded, but subtitle for analysis must be selected
 
@@ -46,7 +44,9 @@ layout: true
 
 ## Disclaimer
 
-Due to a change to the *YouTube* API, the `tuber` function for retrieving video subtitles only works for videos that were created with the same account as the app used for the API access (see this [closed `tuber` issue on GitHub](https://github.com/soodoku/tuber/issues/78)). We will still discuss this function because it has other useful features, but recommend that you use the [`youtubecaption` package](https://github.com/jooyoungseo/youtubecaption) for collecting subtitles for videos that you have not created yourself. 
+Due to a change in the *YouTube* API, the `tuber` function for retrieving video subtitles only works for videos that were created with the same account as the app used for the API access (see this [closed `tuber` issue on GitHub](https://github.com/soodoku/tuber/issues/78)). We will still discuss this function because it has other useful features, but recommend that you use the [`youtubecaption` package](https://github.com/jooyoungseo/youtubecaption) for collecting subtitles for videos that you have not created yourself. 
+
+We will still briefly show you an example of collecting comments with `tuber` here as using `youtubecaption` requires a working installation of [*Anaconda*](https://www.anaconda.com/products/individual) on your computer. 
   
 ---
 
@@ -122,8 +122,6 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ## Retrieving Video Subtitles with `youtubecaption`
 
-- Alternatively, you can retrieve captions with the package [`youtubecaption`](https://github.com/jooyoungseo/youtubecaption)
-
 - **Pros**:
 
   - No credentials necessary, therefore no quota reduction
@@ -140,7 +138,7 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
 
-  - As a last resort, you can retrieve subtitles with the Chrome plugin [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related)
+You can also manually retrieve subtitles with the Chrome plugin [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related)
 
 - **Pros**:
 
@@ -156,11 +154,28 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ---
 
+## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
+
+We have created an `R` script named `parse_video_transcript.R` that you can use to import video transcripts/subtitles collected using the Chrome plugin [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related).
+
+Once you have sourced the function, you can use it to import all .txt files from a given directory (provided as the `directory` argument) and process them into a dataframe with different columns/variables for the timestamp, text, video name, video URL, and video ID.
+
+Of course, before you can use the function, you need to create at least one `.txt` file that containing the transcript copied from the [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related) Chrome plugin. The name(s) of the `.txt` file(s) do not matter, but the transcript/subtitles from each video should be stored in a separate file.
+
+---
+
+## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
+
+As a side note: You could, potentially, automate the transcript collection via a web scraping approach using [`RSelenium`](https://docs.ropensci.org/RSelenium/) (for an introduction to `RSelenium`, see, e.g., this [tutorial](https://appsilon.com/webscraping-dynamic-websites-with-r/)). Note, however, that we have not tested this and using web scraping with a browser plugin may be tricky.
+
+---
+
 ## Time for a Short Live Demo
 
 ![plot](../../content/img/youtubesubtitles.jpg)
-
-**Note**: You can find the code for collecting subtitles for *YouTube* videos in the `YouTubeSubtitles.R` file in the `scripts` folder.
+.small[
+**Note**: You can find the code for collecting and processing subtitles for *YouTube* videos in the `YouTubeSubtitles.R` file in the folder `content\R` within the workshop materials.
+]
 
 ---
 
