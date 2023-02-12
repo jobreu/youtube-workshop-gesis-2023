@@ -1,0 +1,112 @@
+---
+title: "Automatic Sampling and Analysis of YouTube Data"
+subtitle: "Recap, outlook, & practice"
+author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
+date: "February 15th, 2023"
+presenter: Everybody
+
+---
+
+layout: true
+
+```{r child = "./content/config/sessions_setup.Rmd"}
+```
+  
+---
+
+## Course Recap (1)
+
+```{r recap 1, echo = F}
+tribble(
+  ~"Session", ~"Example content", 
+  "Introduction", "Why is YouTube data interesting for research?",
+  "Tools for collecting YouTube data", "Different options for collecting YouTube data",
+  "The YouTube API", "API access, API requests, quota limits",
+  "Collecting YouTube data with R", "Collecting channel/video stats & viewer comments", 
+  "Processing and cleaning user comments", "Data wrangling, string operations, emoji dictionaries"
+) %>% 
+kable(
+    format = "html"
+  , align = "ll"
+  , escape = FALSE
+)
+```
+
+
+
+---
+
+## Course Recap (2)
+
+```{r recap 2, echo = F}
+tribble(
+  ~"Session", ~"Example content", 
+  "Basic text analysis of user comments", "Counting and visualizing the frequencies of words and emojis in comments",
+  "Sentiment analysis of user comments", "Assigning sentiment scores to words and emojis",
+  "Excursus: Retrieving video subtitles", "Retrieving and parsing YouTube video subtitles"
+) %>% 
+kable(
+    format = "html"
+  , align = "ll"
+  , escape = FALSE
+)
+```
+
+---
+
+## Where To Go From Here?
+
+Some topics that we did not cover or only briefly touched upon that you might want to explore next/further:
+
+- Analyses for more than one video: use for-loops, functions from the `apply` family or `map` functions from the [`purrr` package](https://purrr.tidyverse.org/)
+
+--
+
+- Advanced text mining and NLP (going beyond [bag-of-words approaches](https://en.wikipedia.org/wiki/Bag-of-words_model)): check out the tutorials mentioned in the session on basic text analysis or this [presentation by Cosima Meyer](https://cosimameyer.com/slides/nlp-rladies-tunis/talk.html#1)
+
+--
+
+- Alternatives to dictionary-based approaches for sentiment analysis: See, e.g., [Boukes et al., 2019](https://doi.org/10.1080/19312458.2019.1671966) and [van Atteveldt et al., 2021](https://doi.org/10.1080/19312458.2020.1869198)
+
+--
+
+- Supervised machine learning for text analysis: The online book [Supervised Machine Learning for Text Analysis in R](https://smltar.com/) by Emil Hvitfeldt and Julia Silge is an excellent resource here
+
+--
+
+- Topic models (unsupervised ML): To get started you can, e.g., have a look at the introductions/tutorials by [Rachael Tatman](https://www.kaggle.com/rtatman/nlp-in-r-topic-modelling), [Julia Silge](https://juliasilge.com/blog/sherlock-holmes-stm/), or the [*Pew Research Center*](https://medium.com/pew-research-center-decoded/an-intro-to-topic-models-for-text-analysis-de5aa3e72bdb)
+
+---
+
+## Shameful Self-Promotion `r ji("see_no_evil_monkey")`
+
+We have written a book chapter based on this course which should be published later this year:
+
+Breuer, J., Kohne, J., & Mohseni, M. R. (2023). Using YouTube Data for Social Science
+Research. In J. Skopek (Ed.), *Research Handbook of Digital Sociology*. Edward Elgar Publishing.
+
+If you are interested in working with *WhatsApp* data (and/or what else you can do with emojis and emoticons in text data), check out the [`WhatsR` package](https://github.com/gesiscss/WhatsR) (which is also still work in progress) by Julian Kohne.
+
+---
+
+## Acknowledgements `r ji("heart")`
+
+All slides were created with [`xaringan`](https://github.com/yihui/xaringan). For the exercises, we used the [`unilur` package](https://github.com/koncina/unilur). The structure and content of the workshop were built using the [woRkshoptools package](https://github.com/StefanJuenger/woRkshoptools).
+
+A substantial part of the code we used in this workshop - especially that for parsing/processing the *YouTube* data - was written by [Julian Kohne](https://www.juliankohne.com/).
+
+We thank the *GESIS* Training team for taking good care of the organization of this workshop, and all of you for participating!
+
+---
+
+class: center, middle
+
+# Any final questions or comments?
+
+---
+
+class: center, middle
+
+# Practice time
+
+You now have some time to start or continue working on your own *YouTube* data analysis project. We'll be around, so feel free to ask questions while you work on or get started with your projects.

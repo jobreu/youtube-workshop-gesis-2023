@@ -23,6 +23,83 @@ After this course you should be able to...
 
 ---
 
+## Prerequisites for this course
+
+- Working version of `R` >= 4.0.0 and a recent version of [RStudio](https://posit.co/download/rstudio-desktop/#download)
+
+- Some basic knowledge of `R` (and, ideally, also the `tidyverse`) 
+
+- Interest in working with *YouTube* data
+
+---
+
+## Workshop Structure & Materials
+
+- The workshop consists of a combination of lectures and hands-on exercises
+
+- Slides and other materials are available at
+
+[https://github.com/jobreu/youtube-workshop-gesis-2023](https://github.com/jobreu/youtube-workshop-gesis-2023)
+
+We also put the PDF versions of the slides and some other materials on the [GESIS Ilias](https://ilias.gesis.org/) repository for this course.
+
+---
+
+## Online format
+
+- If possible, we invite you to turn on your camera
+
+- Feel free to ask questions anytime
+
+  - If you have an immediate question during the lecture parts, please send it via text chat, publicly or privately (ideally to a person who is currently not presenting)
+
+  - If you have a question that is not urgent and might be interesting for everybody, you can also use audio (& video) to ask it at the end of a lecture part or during the exercises
+(please use the use the "raise hand" function in *Zoom* for this)
+
+- We would kindly ask you to mute your microphones when you are not asking (or answering) a question
+
+---
+
+## Course schedule
+
+.center[**Tuesday, February 14th, 2023**]
+```{r schedule Tue, echo = F}
+schedule <- data.frame(
+  "When?" = c("09:00 - 10:00", "10:00 - 11:00", "11:00 - 11:15", "11:15 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
+  , "What?" = c("Introduction", "The YouTube API", "<i>Coffee Break</i>", "Tools for collecting YouTube data", "<i>Lunch Break</i>", "Collecting YouTube data with R", "<i>Coffee Break</i>", "Processing and cleaning user comments")
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
+knitr::kable(
+  schedule
+  , format = "html"
+  , align = "cc"
+  , escape = FALSE
+)
+```
+
+---
+
+## Course schedule
+
+.center[**Wednesday, February 15th, 2023**]
+```{r schedule Wed, echo = F}
+sharing_options <- data.frame(
+  "When?" = c("09:00 - 10:30", "10:30 - 10:45", "10:45 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
+  , "What?" = c("Basic text analysis of user comments", "<i>Coffee Break</i>", "Sentiment analysis of user comments", "<i>Lunch Break</i>", "Excursus: Retrieving video subtitles", "<i>Coffee Break</i>", "Practice session, questions, and outlook")
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
+knitr::kable(
+  sharing_options
+  , format = "html"
+  , align = "cc"
+  , escape = FALSE
+)
+```
+
+---
+
 ## About us
 
 **Johannes Breuer**
@@ -100,83 +177,6 @@ After this course you should be able to...
 
 ---
 
-## Prerequisites for this course
-
-- Working version of `R` >= 4.0.0 and a recent version of [RStudio](https://rstudio.com/products/rstudio/download/#download)
-
-- Some basic knowledge of `R` (and, ideally, also the `tidyverse`) 
-
-- Interest in working with *YouTube* data
-
----
-
-## Workshop Structure & Materials
-
-- The workshop consists of a combination of lectures and hands-on exercises
-
-- Slides and other materials are available at
-
-[https://github.com/jobreu/youtube-workshop-gesis-2023](https://github.com/jobreu/youtube-workshop-gesis-2023)
-
-We also put the PDF versions of the slides and some other materials on the [GESIS Ilias](https://ilias.gesis.org/) repository for this course.
-
----
-
-## Online format
-
-- If possible, we invite you to turn on your camera
-
-- Feel free to ask questions anytime
-
-  - If you have an immediate question during the lecture parts, please send it via text chat, publicly or privately (ideally to a person who is currently not presenting)
-
-  - If you have a question that is not urgent and might be interesting for everybody, you can also use audio (& video) to ask it at the end of a lecture part or during the exercises
-(please use the use the "raise hand" function in *Zoom* for this)
-
-- We would kindly ask you to mute your microphones when you are not asking (or answering) a question
-
----
-
-## Course schedule
-
-.center[**Tuesday, February 14th, 2023**]
-```{r schedule Tue, echo = F}
-schedule <- data.frame(
-  "When?" = c("09:00 - 10:00", "10:00 - 11:00", "11:00 - 11:15", "11:15 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
-  , "What?" = c("Introduction", "The YouTube API", "<i>Coffee Break</i>", "Tools for collecting YouTube data", "<i>Lunch Break</i>", "Collecting YouTube data with R", "<i>Coffee Break</i>", "Processing and cleaning user comments")
-  , stringsAsFactors = FALSE
-  , check.names = FALSE
-)
-knitr::kable(
-  schedule
-  , format = "html"
-  , align = "cc"
-  , escape = FALSE
-)
-```
-
----
-
-## Course schedule
-
-.center[**Wednesday, February 15th, 2023**]
-```{r schedule Wed, echo = F}
-sharing_options <- data.frame(
-  "When?" = c("09:00 - 10:30", "10:30 - 10:45", "10:45 - 12:15", "12:15 - 13:15", "13:15 - 14:45", "14:45 - 15:00", "15:00 - 16:30")
-  , "What?" = c("Basic text analysis of user comments", "<i>Coffee Break</i>", "Sentiment analysis of user comments", "<i>Lunch Break</i>", "Excursus: Retrieving video subtitles", "<i>Coffee Break</i>", "Practice session, questions, and outlook")
-  , stringsAsFactors = FALSE
-  , check.names = FALSE
-)
-knitr::kable(
-  sharing_options
-  , format = "html"
-  , align = "cc"
-  , escape = FALSE
-)
-```
-
----
-
 ## Preliminaries: Base `R` vs. `tidyverse`
 
 In this course, we will use a mixture of base `R` and `tidyverse` code as Johannes prefers the `tidyverse`, and  Annika and Ro use both.
@@ -190,6 +190,8 @@ ICYC, here are some opinions [for](http://varianceexplained.org/r/teach-tidyvers
 ## Preliminaries: The `tidyverse`
 
 If you've never seen `tidyverse` code, the most important thing to know is the `%>%` [(pipe) operator](https://magrittr.tidyverse.org/reference/pipe.html). Put briefly, the pipe operator takes an object (which can be the result of a previous function) and pipes it (by default) as the first argument into the next function. This means that `function(arg1 = x)` is equivalent to `x %>% function()`.
+
+--
 
 It may also be worthwhile to know/remember that `tidyverse` functions normally produce [`tibbles`](https://tibble.tidyverse.org/) which are a special type of dataframe (and most `tidyverse` functions also expect dataframes/tibbles as input to their first argument).
 
@@ -216,9 +218,13 @@ knitr::include_graphics("https://github.com/allisonhorst/stats-illustrations/raw
 
 In this course, we will focus on getting data via the YouTube (Data) API. Another popular approach for getting data from social media (and other places online) is web scraping.
 
-While YouTube has recently become more open with regard to data access for academic researchers by introducing the [*YouTube Researcher Program*](https://research.youtube/), what happened with the *Facebook* APIs following the Cambridge Analytica case or the recent developments around the *Twitter* API show that relying (exclusively) on platform APIs for data access can be risky.
+--
 
-Accordingly, [Freelon (2018)](https://www.tandfonline.com/doi/abs/10.1080/10584609.2018.1477506?journalCode=upcp20) argues that researchers interested in social media and other internet data should know/learn how to scrape the web in what he calls the "post-API age" (and a [paper by Mancosu & Vegetti, 2020](https://dx.doi.org/10.1177/2056305120940703) makes a similar point).
+While YouTube has recently become more open with regard to data access for academic researchers by introducing the [*YouTube Researcher Program*](https://research.youtube/)(more on that later), what happened with the *Facebook* APIs following the Cambridge Analytica case or the recent developments around the *Twitter* API show that relying (exclusively) on platform APIs for data access can be risky.
+
+--
+
+Accordingly, [Freelon (2018)](https://www.tandfonline.com/doi/abs/10.1080/10584609.2018.1477506?journalCode=upcp20) argues that researchers interested in social media and other internet data should know/learn how to scrape the web in what he calls the "post-API age" (and a paper by [Mancosu & Vegetti, 2020](https://dx.doi.org/10.1177/2056305120940703) makes a similar point).
 
 ---
 

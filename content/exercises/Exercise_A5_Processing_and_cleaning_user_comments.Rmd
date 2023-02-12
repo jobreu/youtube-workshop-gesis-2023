@@ -1,0 +1,357 @@
+---
+title: 'Exercises A5: Processing and Cleaning User Comments'
+author: 'Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni'
+date: 'Automatic sampling and analysis of YouTube data, February 14-15, 2023'
+---
+
+```{r child = "./content/config/exercises_setup.Rmd"}
+```
+
+```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Naturally, before we can process the data, we need to load it :-) Load the comment data you scraped in the previous set of exercises into your `R` session and assign it to an object called `comments`. Get an overview of the contained variables. What do the variables describe? Why do we have missing data in some of them?
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To load the data, you can use the `readRDS()` function. To get an overview of the contained variables, you can simply use `colnames()` or `names()` (or `glimpse()` from the `dplyr` package). To find out more about what the variables mean, you can have a look at the [*YouTube* data API documentation](https://developers.google.com/youtube/v3/docs) and search for the respective variable descriptions.
+
+```
+
+```{r load-data, box.title = "Solution 1", solution = TRUE, box.icon = "fa-check"}
+# Load data
+comments <- readRDS("./data/RawLWTComments.rds")
+
+# overview of columns
+colnames(comments)
+
+```
+
+```{block, box.title = "Exercise 2", box.body = list(fill = "white"), box.icon = "fa-star"}
+As a first processing step, we want to remove the following variables: `authorProfileImageUrl`, `authorChannelUrl`, `authorChannelUrl.value`,`video_id`,`canRate`, `viewerRating`, `moderationStatus`. Create a new dataframe called `Selection` containing only the remaining variables.
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+You can use the `subset()` function from `base R` to keep or remove a selection of variables from a dataframe. For more information on how to use it, have a look at its documentation by running `?subset()`.
+
+```
+
+```{r select-vars, results = 'hide', box.title = "Solution 2", solution = TRUE, box.icon = "fa-check"}
+# Select only the columns we need
+Selection <- subset(comments,select = -c(authorProfileImageUrl,
+                                         authorChannelUrl,
+                                         authorChannelId.value,
+                                         videoId,
+                                         canRate,
+                                         viewerRating,
+                                         moderationStatus))
+# Alternatively, you could, of course also use dplyr::select()
+
+# Check selection
+colnames(Selection)
+
+```
+
+```{block, box.title = "Exercise 3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Check the class of the variable `publishedAt` in your new dataframe. Is this class suitable for further analysis? If not, change the class to the appropriate one and compute the time difference in publishing dates between the comment in the first row and the comment in the last row.
+
+Do the same transformation for the variable `updatedAt`.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To check the class of the `publishedAt` variable, you can use the `class()` function. You can get information about formatting of the comment timestamp from the [YouTube API documentation](https://developers.google.com/youtube/v3/docs/comments). To transform character strings into datetime objects in `R`, you can use the base `R` function `as.POSIXct()`, However, we would recommend using the `anytime()` function from the package with the same name as that is more convenient (*Note*: If you are a `tidyverse` afficionado, you can also use functions from the `lubridate` package for this task).
+
+```
+
+```{r check-class, results = 'hide', cache=TRUE, box.title = "Solution 3", solution = TRUE, box.icon = "fa-check"}
+# check variable class
+class(Selection$publishedAt)
+
+# transform to datetime object with as.POISXct
+DateTime <- as.POSIXct(Selection$publishedAt,format = "%Y-%m-%dT%H:%M:%SZ")
+
+# transform to datetime object with anytime
+library(anytime)
+Selection$publishedAt <- anytime(Selection$publishedAt,asUTC = TRUE)
+
+# recheck variable class
+class(Selection$publishedAt)
+
+# compute time difference in publishing time between first and last comment
+Selection$publishedAt[1] - Selection$publishedAt[nrow(Selection)]
+
+# transform the updatedAt variable as well
+Selection$updatedAt <- anytime(Selection$updatedAt,asUTC = TRUE)
+
+```
+
+```{block, box.title = "Exercise 4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Check the `likeCount` variable in your data. Is it suitable for numeric analysis? If not, transform it to the appropriate class and test whether your transformation worked.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+You can use the `class()` function to check the class of an object in `R`. To change a class, for example from character to numeric, you can use the family of "as"-functions, for example `as.numeric()`.
+
+```
+
+```{r count, box.title = "Solution 4", solution = TRUE, box.icon = "fa-check"}
+# check variable class
+class(Selection$likeCount)
+
+# transform class
+Selection$likeCount <- as.numeric(Selection$likeCount)
+
+# recheck class
+class(Selection$likeCount)
+summary(Selection$likeCount)
+
+```
+
+```{block, box.title = "Exercise 5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Check the `textOriginal` column in your `Selection` dataframe. Some comments contain hyperlinks that we should remove for later text analysis steps. Extract the hyperlinks from the `textOriginal` column into a new list called `Links`. In addition, create a new variable called `LinksDel` that contains the text from `textOriginal` *without* hyperlinks.
+
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+The `qdapRegex` package offers many pre-built functions for detecting, removing, and replacing specific character strings. You can, for example, use the `rm_url()` function for extracting and replacing hyperlinks. As a reminder: You can check the documentation for this function with `?rm_url()`.
+
+```
+
+```{r urls, box.title = "Solution 5", solution = TRUE, box.icon = "fa-check"}
+# load package
+library(qdapRegex)
+
+# check column
+Selection$textOriginal[278:288]
+
+# extract hyperlinks
+Links <- rm_url(Selection$textOriginal, extract = TRUE)
+Links[278:288]
+
+# remove hyperlinks
+LinksDel <- rm_url(Selection$textOriginal)
+LinksDel[278:288]
+
+```
+
+```{block, box.title = "Exercise 6", box.body = list(fill = "white"), box.icon = "fa-star"}
+While hyperlinks have been removed in the new `LinksDel` variable, the strings therein still contain emojis. For our later analysis, we want to do three things:
+
+1) Create one column without hyperlinks and emojis
+2) Create one column where emojis are replaced by a textual description
+3) Create one column containing only the textual description of emojis
+
+To achieve this, we first need a dictionary of emojis and their corresponding textual descriptions in a usable format.
+Load the `emo` package and have a look at the contained dataframe `jis`. Assign it to a new object called `EmojiList`. Afterwards, source the provided `CamelCase.R` script (contained in the folder `content\R` within the workshop materials) to transform the textual description from regular case to CamelCase. Finally, create a new variable called `TextEmoDel` containing the text without the emoji.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+We created a function that capitalizes the first character of each word. The function is called `simpleCap()` and the name of the in which the function is stored is `CamelCase.R`. You can load it into your workspace using the `source()` function and specifying its location. You can find the script containing this function in the folder `content\R` within the workshop materials. Keep in mind that this function only capitalizes the first letters of each word, so you still need to get rid of the extra space characters. The `gsub()` function is a handy tool for this purpose. You can use the `ji_replace_all()` function from the emo package to replace emojis with an empty string ("").
+
+```
+
+```{r emo-names, box.title = "Solution 6", solution = TRUE, box.icon = "fa-check"}
+# load package
+library(emo)
+
+# source script
+source("./content/R/CamelCase.R")
+
+# reassign the jis dataframe from the emo package to a new object
+EmojiList <- jis
+
+# apply the function to all emoji names
+CamelCaseEmojis <- lapply(jis$name, simpleCap)
+
+# delete empty spaces
+CollapsedEmojis <- lapply(CamelCaseEmojis,function(x){gsub(" ", "", x, fixed = TRUE)})
+
+# replace the names column in the EmojiList df with the new name column
+EmojiList[,4] <- unlist(CollapsedEmojis)
+
+# check the first 10 entries in the new df
+EmojiList[1:10,c(1,3,4)]
+
+# create a new text column with emojis (& hyperlinks) removed
+TextEmoDel <- ji_replace_all(LinksDel,"")
+
+# Check content of new vectors
+LinksDel[c(461,471,696)]
+TextEmoDel[c(461,471,696)]
+
+```
+
+```{block, box.title = "Exercise 7", box.body = list(fill = "white"), box.icon = "fa-star"}
+Ultimately, we want to use our `EmojiList` dataframe to replace the instances of emojis in our text with textual descriptions. We can do that by looping over all emojis in all texts and replacing them one at a time. There is a problem, however: Some emoji strings are made up of multiple "shorter" emoji strings. If we match parts of a "longer" emoji string and replace it with its textual description, the rest will become unreadable. For this reason, we need to make sure that we replace the emoji **from longest to shortest string**. Sort the `EmojiList` dataframe by the length of the `emoji` column from longest to shortest.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+You can count the number of characters in a vector of text using the `nchar()` function. You can reorder dataframes using the `order()` function and you can reverse an order with the `rev()` function (*Note*: The `tidyverse` equivalent here would be to use `arrange(desc())` from the `dplyr` package).
+
+```
+
+```{r emo-sort, box.title = "Solution 7", solution = TRUE, box.icon = "fa-check"}
+# order from longest to shortest
+EmojiList <- EmojiList[rev(order(nchar(jis$emoji))),]
+
+# overview of new order
+head(EmojiList[,c(1,3,4)],5)
+
+```
+
+```{block, box.title = "Exercise 8", box.body = list(fill = "white"), box.icon = "fa-star"}
+We now have a working dictionary for replacing emojis with a textual description! Create a new variable called `TextEmoRep` as a copy of the `LinksDel` variable. Next, loop through the ordered `EmojiList` and, for every element in `TextEmoRep`, replace the contained emoji with "EMOJI_" followed by their textual description. You can use the `rm_default()` function from the `qdapRegex` package to replace custom patterns. Be sure to check the documentation so you can set the appropriate options for the function.
+
+*NB*: There will be warnings in your console even if you are doing everything right, so don't worry about those.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+Loop through the dictionary sorted from longest to shortest emoji. You need to use a "for loop" to go through all emojis for all comments, one at a time. The `paste()` function is useful for adding the prefix "EMOJI_" at the beginning of the textual descriptions. Don't forget to set the arguments `fixed = TRUE`, `clean = TRUE` and `trim = FALSE` in your call to `rm_default()`  
+
+```
+
+```{r emo-rep, warning=FALSE, message=FALSE, cache=TRUE, box.title = "Solution 8", solution = TRUE, box.icon = "fa-check"}
+# assign the column to a new variable
+TextEmoRep <- LinksDel
+
+# switch off warnings
+options(warn=-1)
+
+# loop through all emojis for all comments
+for (i in 1:dim(EmojiList)[1]) {
+
+  TextEmoRep <- rm_default(TextEmoRep,
+                    pattern = EmojiList[i,3],
+                    replacement = paste0("EMOJI_",
+                                       EmojiList[i,4],
+                                       " "),
+                    fixed = TRUE,
+                    clean = FALSE,
+                    trim = FALSE)
+}
+
+# check results
+LinksDel[c(461,471,696)]
+TextEmoRep[c(461,471,696)]
+
+```
+
+```{block, box.title = "Exercise 9", box.body = list(fill = "white"), box.icon = "fa-star"}
+We now have the original text column, and the text column with removed hyperlinks in which emojis are replaced with their textual descriptions (`TextEmoRep`). We need one more variable that *only* contains the textual descriptions of the emojis. For this purpose, you can use the function `ExtractEmoji()` which we have created and stored in an `R` script with the same name in the folder `content\R` within the workshop materials. The new vector should be named `Emoji`.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+Use the `source()` function to source the `ExtractEmoji.R` script from the `content\R` folder within the workshop materials and then `sapply()` the `ExtractEmoji()` function to the variable `TextEmoRep`. To remove useless rownames from the extracted emojis, you can set `names(Emoji)` to `NULL`
+
+```
+
+```{r emo-extract, box.title = "Solution 9", solution = TRUE, box.icon = "fa-check"}
+# source script containing the function
+source("./content/R/ExtractEmoji.R")
+
+# apply function & remove rownames
+Emoji <- sapply(TextEmoRep,ExtractEmoji)
+names(Emoji) <- NULL
+
+# check results
+LinksDel[c(461,471,696)]
+TextEmoRep[c(461,471,696)]
+Emoji[c(461,471,696)]
+
+```
+
+```{block, box.title = "Exercise 10", box.body = list(fill = "white"), box.icon = "fa-star"}
+We now have selected or created all the variables we need. As a final step in this set of exercises, create a new dataframe called `comments_clean` that contains the following variables:
+
+- Selection$authorDisplayName
+
+- Selection$textOriginal
+
+- TextEmoRep
+
+- TextEmoDel
+
+- Emoji
+
+- Selection$likeCount
+
+- Links
+
+- Selection$publishedAt
+
+- Selection$updatedAt
+
+- Selection$parentId
+
+- Selection$id
+
+Set the following names for the columns in the new dataframe:
+
+- Author
+
+- Text
+
+- TextEmojiReplaced
+
+- TextEmojiDeleted
+
+- Emoji
+
+- LikeCount
+
+- URL
+
+- Published
+
+- Updated
+
+- ParentId
+
+- CommentID
+
+Save the new dataframe as an `.rds` file with the name `ParsedLWTComments.rds` in the `data` folder that you (should) have created for the previous set of exercises.
+
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+You can use the `cbind.data.frame()` function to paste together multiple columns into a dataframe. *Note*:  You need to set the argument `stringsAsFactors = FALSE` if your `R` version is < 4.0.0 to prevent strings from being interpreted as factors. The variables `Links` and `Emoji` are lists and can contain multiple values per row. For this reason, you need to enclose them with the `I()` function to store them as columns within a dataframe. You can save your result using the `saveRDS()` function.
+
+
+```
+
+```{r final-df, eval=FALSE, box.title = "Solution 10", solution = TRUE, box.icon = "fa-check"}
+# create df dataframe (use I() function to enclose Emoji and Links)
+comments_clean <- cbind.data.frame(Selection$authorDisplayName,
+                                   Selection$textOriginal,
+                                   TextEmoRep,
+                                   TextEmoDel,
+                                   I(Emoji),
+                                   Selection$likeCount,
+                                   I(Links),
+                                   Selection$publishedAt,
+                                   Selection$updatedAt,
+                                   Selection$parentId,
+                                   Selection$id)
+
+# set column names
+names(comments_clean) <- c("Author",
+                           "Text",
+                           "TextEmojiReplaced",
+                           "TextEmojiDeleted",
+                           "Emoji",
+                           "LikeCount",
+                           "URL",
+                           "Published",
+                           "Updated",
+                           "ParentId",
+                           "CommentID")
+
+# save dataframe
+saveRDS(comments_clean, file = "./data/ParsedLWTComments.rds")
+
+```

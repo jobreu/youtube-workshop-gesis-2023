@@ -1,0 +1,122 @@
+---
+title: 'Exercises A4: Collecting YouTube Data with R'
+author: 'Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni'
+date: 'Automatic sampling and analysis of YouTube data, February 14-15, 2023'
+---
+
+```{r child = "./content/config/exercises_setup.Rmd"}
+```
+
+In the following exercises we will collect and explore some data from *YouTube*.
+
+Before we start with this exercise, three short notes on working with the exercise files in this workshop:
+
+1. You can find the solutions for this exercise as well as all other exercises in the `solutions` folder in the repo/directory that contains the course materials. You can copy code from these exercise files by clicking on the small blue clipboard icon in the upper right corner of the code boxes.
+
+2. We would like to ask you to solve all `R` coding tasks by writing them into your own `R` script files. This ensures that all of your solutions are reproducible, and that you can (re-)use solutions from earlier exercises in later ones.
+
+3. All solutions 'assume' that the working directory is the root directory of the workshop materials (which should be a folder named `youtube-workshop-gesis-2023` stored whereever you saved the materials on your local hard drive). This way, we can make use of files in other folders using relative paths. This means that you may have to change/set your working directory accordingly for your own exercise solution scripts.
+
+Now let's get to it...
+
+```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Before we can start collecting data through the *YouTube* API, you first need to set up your API authorization. In case you have not already done that, please do so now.
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To set up your *YouTube* API authorization you need to use the function `yt_oauth` from the `tuber` package which requires the ID of your app as well as your app secret as arguments.
+```
+
+```{r authorization, solution = TRUE, eval = F, box.title = "Solution 1", solution = TRUE, box.icon = "fa-check"}
+library(tuber)
+
+yt_oauth(app_id = "my_app_id", # paste your app ID here
+         app_secret = "my_app_secret", # paste your app secret here
+         token="") # this indicates that thete is no .httr-oauth yet
+
+# alternatively, you can also use the keyring package (see slides)
+```
+
+*Note*: While going through the following exercises you might want to monitor your API quota usage via the [*Google Cloud Platform*](https://console.cloud.google.com) dashboard for your app:  Select IAM & Admin -> Quotas and look for YouTube Data Api v3 - Queries per day.
+
+```{block, box.title = "Exercise 2", box.body = list(fill = "white"), box.icon = "fa-star"}
+How many views, subscribers, and videos does the [Computerphile channel](https://www.youtube.com/channel/UC9-y-6csu5WGm29I7JiwpnA) currently have?
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To get channel statistics you can use the `get_channel_stats` function which requires the ID the channel (as a string) as its main argument. You can find the channel ID by inspecting the page source on the channel website and searching for the strings "channelId" or "externalId", or by using the [Commentpicker tool](https://commentpicker.com/youtube-channel-id.php). In this particular case, however, the channel ID is also included in the link in the exercise text ;-)
+```
+
+```{r channel-stats, eval = F, box.title = "Solution 2", solution = TRUE, box.icon = "fa-check"}
+get_channel_stats("UC9-y-6csu5WGm29I7JiwpnA")
+```
+
+```{block, box.title = "Exercise 3", box.body = list(fill = "white"), box.icon = "fa-star"}
+How many views, likes, and comments does the music video ["Data Science" by Baba Brinkman](https://www.youtube.com/watch?v=uHGlCi9jOWY) have?
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To answer this question you can use `get_stats` and need the ID of the video. The video IDs are the characters after the "v=" parameter in the video URL.
+```
+
+```{r video-stats, eval = F, box.title = "Solution 3", solution = TRUE, box.icon = "fa-check"}
+get_stats("uHGlCi9jOWY")
+```
+
+```{block, box.title = "Exercise 4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Collect all comments (including replies) for the [video on "The Census" by *Last Week Tonight* with John Oliver](https://www.youtube.com/watch?v=1aheRpmurAo). As we want to use the comments for later exercises, please assign the results to an object called `comments_lwt_census`.
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To get all comments including replies you need to use the function `get_all_comments`.
+```
+
+```{r get-comments, eval = F, box.title = "Solution 4", solution = TRUE, box.icon = "fa-check"}
+comments_lwt_census <- get_all_comments("1aheRpmurAo")
+```
+
+```{block, box.title = "Exercise 5", box.body = list(fill = "white"), box.icon = "fa-star"}
+If you check the comment count on the website of the video you will see that there are more comments than in the dataframe you just created. This is because `get_all_comments` from `tuber` only collects up to 5 replies per comment. How many of the comments you just collected were replies?
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+There is a variable called `parentID` in the dataframe which you can use to answer this question. It is missing (i.e., `NA`) for top-level comments (i.e., those that are not replies to other comments).
+```
+
+```{r count-replies, eval = F, box.title = "Solution 5", solution = TRUE, box.icon = "fa-check"}
+sum(!is.na(comments_lwt_census$parentId))
+```
+
+```{block, box.title = "Exercise 6", box.body = list(fill = "white"), box.icon = "fa-star"}
+As a final step, we want to save the comments we just collected so we can use them again in the exercises for the following sessions. Please save the the comments as an `.rds` file named `RawLWTComments` file in a folder named `data` within the workshop materials directory.
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+To save an .rds file you can use the `base R` function `saveRDS`. If you have not done so before, you should create a `data` subfolder within the folder that contains the workshops materials. Again, the code in the solution assumes that your working directory is the workshop materials folder and stores the file in the `data` folder that you should have created.
+```
+
+```{r save, eval = F, box.title = "Solution 6", solution = TRUE, box.icon = "fa-check"}
+saveRDS(comments_lwt_census, "./data/RawLWTComments.rds")
+```
+
+```{block, box.title = "Exercise 7 (Bonus)", box.body = list(fill = "white"), box.icon = "fa-star"}
+If you are done with the other exercises or want to try out something else, you can collect all comments for the *Last Week Tonight* video on the US census again using the `vosonSML` package. If you do that, you can compare the data: How many comments were collected? Which variables do the two data sets contain? Etc.
+```
+
+```{block, opts.label = "clues", box.icon = "fa-lightbulb"}
+Remember that you need an API key for the `vosonSML` package. If you have not done so, you can create one via the [*Google Cloud Platform*](https://console.cloud.google.com) (APIs & Services -> Credentials).
+```
+
+```{r voson, eval = F, box.title = "Solution 7 (Bonus)", solution = TRUE, box.icon = "fa-check"}
+library(vosonSML)
+
+youtube_auth <- Authenticate("youtube",
+                             apiKey = "paste_your_api_key_here")
+
+comments_lwt_census_voson <- youtube_auth %>%
+  Collect(videoIDs = c("1aheRpmurAo"),
+          verbose = FALSE)
+# if you set verbose = TRUE, you will, e.g., see how many replies are collected
+
+View(comments_lwt_census_voson)
+```
