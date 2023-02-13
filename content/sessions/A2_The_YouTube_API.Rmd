@@ -19,9 +19,7 @@ layout: true
 ## How Can We Get Data From Websites?
 
 Theoretically, we could gather all the information manually by clicking on the things that are
- interesting to us and copy/pasting them. However, this is tedious and time-consuming. **We want a way of automatizing this task**. The solution to our problem is...
-
-[Web scraping](https://en.wikipedia.org/wiki/Web_scraping). There are two different approaches:
+ interesting to us and copy/pasting them. However, this is tedious and time-consuming. **We want a way of automatizing this task**. There are two different approaches:
 
 1. **Screen scraping:** Getting the HTML-code out of your browser, parsing & formatting it, then analyzing the data
   
@@ -53,7 +51,6 @@ woRkshoptools::include_picture("YouTube_schematic2.png")
 ```
 
 
-
 ---
 
 ## Screen Scraping
@@ -63,7 +60,6 @@ woRkshoptools::include_picture("YouTube_schematic2.png")
 woRkshoptools::include_picture("youtube_scraping.png")
 
 ```
-
 
 
 ---
