@@ -2,7 +2,7 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Basic text analysis of user comments"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+date: "February 15th, 2023"
 presenter: Annika
 
 ---
@@ -176,7 +176,7 @@ FormattedComments %>%
 
 Which comments received the highest number of likes?
 
-.smaller[
+.mini[
 ```{r comments-likes-output, echo = F}
 FormattedComments %>% 
   arrange(-LikeCount) %>% 
@@ -614,6 +614,6 @@ head(n = 10) %>%
 
 class: center, middle
 
-## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/B1_Basic_text_analysis_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B1_Basic_text_analysis.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/B1_Basic_text_analysis_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B1_Basic_text_analysis.html)
