@@ -26,24 +26,41 @@ There are many different ways in which data from *YouTube* and other social medi
 
 ---
 
-## Identifying Relevant Channels
+## Identifying Relevant Channels or Videos
 
 If new data is collected, it is necessary to identify relevant channels and videos for the sample.
 
-
 - [VTracker](https://vtracker.host.ualr.edu/)
-  - Search for and tracking of videos
-  - Useful if there are contentual criteria for channel selection
-
 - [Socialblade](https://socialblade.com/)
-  - Ranked lists of channels
-  - Useful if there are no contentual criteria for channel selection
-
 - [YouTube Channel Crawler](https://channelcrawler.com/)
-  - Search for channels with the help of filters (e.g. language, likes)
-  - Useful if there are no contentual criteria for channel selection
-
 ---
+## VTracker
+  - Search for and tracking of videos
+  - Low-key analysis such as engagement, keyword trends, influence detection
+  - Creation of Dashboard for different metrics
+  - Data can't be collected for further  analysis
+  - Still a bit buggy
+---
+```{r, echo=FALSE, out.width="60%"}
+woRkshoptools::include_picture("vtracker.png")
+```
+---
+## Socialblade
+  - Ranked lists of channels
+  - Useful if there are no content-related criteria for channel selection
+  
+```{r, echo=FALSE, out.width="80%"}
+woRkshoptools::include_picture("socialblade.png")
+```
+---
+## YouTube Channel Crawler
+  - Search for channels with the help of filters (e.g. language, likes)
+  - Useful if there are no content-related criteria for channel selection
+```{r, echo=FALSE, out.width="80%"}
+woRkshoptools::include_picture("channelcrawler.png")
+```
+---
+
 
 ## Excluding Problematic Channels
 
@@ -63,10 +80,10 @@ Some of the comment sampling tools also offer search functions that can be used 
 .small[
 ```{r tools table 1, echo = F}
 tools <- data.frame(
-  "Software" = c("YouTube Data Tools 1.22", "Webometric 4.1", "Tuber 0.9.9", "vosonSML 0.29.13", "youtubecaption 1.0.0"),
+  "Software" = c("YouTube Data Tools 1.22", "Webometric 4.3", "Tuber 0.9.9", "vosonSML 0.29.13", "youtubecaption 1.0.0"),
   "Type" = c("Website", "Standalone app", "R package", "R package", "R package"),
   "Can collect" = c("Channel Info, Video Info, Comments", "Channel Info, Video Info, Comments, Video Search", "Channel Info, Video Info, Comments, Subtitles, All searches", "Video IDs, Comments", "Subtitles"),
-  "Comment Scope" = c("Only all", "100 most recent or all", "20-100 most recent or all", "1-x top-level", "n/a"),
+  "Comment Scope" = c("x top-level or all", "100 most recent or all", "20-100 most recent or all", "1-x top-level", "n/a"),
   "Needs API Key" = c("No", "Yes", "Yes", "Yes", "No")
   , stringsAsFactors = FALSE
   , check.names = FALSE
@@ -81,16 +98,31 @@ knitr::kable(
 ]
 
 ---
+## YouTube Data Tools
+[YouTube Data Tools](https://tools.digitalmethods.net/netvizz/youtube/)
+```{r, echo=FALSE}
+woRkshoptools::include_picture("ytdt.png")
+```
+
+---
+
+## Webometric
+[Webometric 4.3](http://lexiurl.wlv.ac.uk/searcher/youtube.html)
+```{r, echo=FALSE, out.width="90%"}
+woRkshoptools::include_picture("webometric.png")
+```
+
+---
 
 ## Exemplary Comparison of the Different Tools
 
 .small[
 ```{r tools table 2, echo = F}
 usability <- data.frame(
-"Software" = c("YouTube Data Tools 1.22", "Webometric 4.1", "Tuber 0.9.9", "vosonSML 0.29.13"),
+"Software" = c("YouTube Data Tools 1.30", "Webometric 4.1", "Tuber 0.9.9", "vosonSML 0.29.13"),
   "Ease of Use" = c("High", "Low", "Low", "Low"),
   "Disadvantages" = c("Lacking flexibility, less information", "Only first 5 follow-up comments, no error feedback, undetectable time-outs", "Only first 5 follow-up comments", "Lacking flexibility, only comments"),
-  "No. of Comments" = c("52,243", "49,150", "49,139", "50,619")
+  "No. of Comments" = c("54,850", "51,095", "51,084", "52,679")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
