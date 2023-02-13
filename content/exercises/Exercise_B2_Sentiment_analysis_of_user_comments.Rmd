@@ -1,0 +1,231 @@
+---
+title: 'Exercises B2: Sentiment Analysis of User Comments'
+author: 'Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni'
+date: 'Automatic sampling and analysis of YouTube data, February 14-15, 2023'
+
+---
+
+```{r child = "content/config/exercises_setup.Rmd"}
+```
+
+In these exercises, we will be going through the data set you preprocessed yesterday and perform three types of sentiment analysis:
+
+1) Basic sentiment analysis of text
+2) Slightly more advanced sentiment analysis of text
+3) Experimental sentiment analysis on emojis
+
+
+```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Setup your `R` session and load your data (i.e., the parsed/processed comments), so that we can perform sentiment analysis. Assign the loaded data to an object named `comments`. Load the necessary libraries to perform sentiment analysis.
+
+```
+
+```{block, opts.label = "clues"}
+If your `R` version is < 4.0.0, you need to use the `options()` function to prevent `R` from interpreting your character variables as factor variables. If you are not sure how to use the `options()` function, you can always search it in the *RStudio* help panel and have a look at all the different options. Regardless of your `R` version, you need load your preprocessed data set using `readRDS()`. Don't forget to also load the required packages `syuzhet` and `sentimentr` using `library()`.
+
+```
+
+```{r, results = 'hide', solution = TRUE, warning=F,message=F}
+# prevent R from interpreting characters as factors
+options(stringsAsFactors = FALSE)
+
+# load packages
+library(syuzhet)
+library(sentimentr)
+
+# load data
+# if you downloaded the file from ILIAS, you need to rename it so that it ends with .rds
+# you may also need to adapt the file path of the following command to the path on your computer
+comments <- readRDS("./content/data/ParsedLWTComments.rds")
+
+```
+
+
+```{block, box.title = "Exercise 2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Chose the appropriate column from your `comments` dataframe and run a basic sentiment analysis on it using the `syuzhet` package. Save the comment sentiments in a new variable called `BasicSentimentSyu` and check whether the column has any zero values. If there are zero values, why might this be the case?
+
+```
+
+```{block, opts.label = "clues"}
+Hyperlinks and emojis might cause problems for the sentiment analysis (or any text mining methods, really). You can check whether a variable contains a given value x using the following command `table(variable == x)` (with variable and x replaced by the appropriate variable name and value, of course).
+
+```
+
+```{r, solution = TRUE, warning=F,message=F}
+# create new column with sentiment values
+BasicSentimentSyu <- get_sentiment(comments$TextEmojiDeleted)
+
+# check for zero values
+table(BasicSentimentSyu == 0)
+
+# examples
+comments$Text[BasicSentimentSyu == 0][c(17,74)]
+
+```
+
+```{block, solution = TRUE}
+
+Zero values are given to comments containing no words from the used dictionary or containing multiple words with sentiment scores that cancel each other out **exactly**. Comments that only contain emojis or a hyperlink will also have a score of zero as these are not contained in the dictionaries.
+
+```
+
+
+```{block, box.title = "Exercise 3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Check the documentation of the `syuzhet` package and the `get_sentiment()` function to see which dictionaries are available. Create a correlation matrix for sentiment scores using the different methods (you can leave out Stanford). Which factors might lead to low correlations between the dictionaries? Which dictionary is the best one to use for our case?
+```
+
+```{block, opts.label = "clues"}
+You can find the documentation for the `get_sentiment()` function by searching for its name in the *RStudio* help panel or by running `?get_sentiment()` in your `R` console. You can also search online for further information. A correlation matrix can be created with the `cor` function. As this function needs a dataframe as an input, you need to create one variable for each sentiment dictionary rating and combine them into a dataframe with `cbind.data.frame()` before passing it to `cor`.
+
+```
+
+```{block, solution = TRUE}
+
+Which [dictionary](https://arxiv.org/pdf/1901.08319) is best always depends on your research question and what kind of data you want to use. In general, you should pick a dictionary that is as similar to your data as possible and is most sensitive to the kind of sentiment that you are interested in (dictionaries sometimes contain mainly positive or mainly negative entries).
+
+```
+
+
+```{r, solution = TRUE, warning=F,message=F}
+# compute sentiment scores using different dictionaries
+BasicSentimentSyu <- get_sentiment(comments$TextEmojiDeleted,method = "syuzhet")
+BasicSentimentBing <- get_sentiment(comments$TextEmojiDeleted,method = "bing")
+BasicSentimentAfinn <- get_sentiment(comments$TextEmojiDeleted,method = "afinn")
+BasicSentimentNRC <- get_sentiment(comments$TextEmojiDeleted,method = "nrc")
+
+# combine them into one dataframe
+Sentiments <- cbind.data.frame(BasicSentimentSyu,
+                               BasicSentimentBing,
+                               BasicSentimentAfinn,
+                               BasicSentimentNRC)
+# set column names
+colnames(Sentiments) <- c("Syuzhet",
+                          "Bing",
+                          "Afinn",
+                          "NRC")
+
+# correlation matrix
+cor(Sentiments)
+
+```
+
+```{block, box.title = "Exercise 4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Standardize the comment sentiments for the `syuzhet` method with respect to the total number of words in the respective comment. Call this new Variable `SentimentPerWord`.
+
+```
+
+```{block, opts.label = "clues"}
+Computing the number of words requires multiple functions if you want to use base `R`. The `strplit()` command splits a character string into multiple strings on a specific indicator/separator, for example a space (" "). The `unlist()` command transfers a list of values into a regular vector. The `length()` function counts the number of elements in a vector and with the `sapply()` function, you can apply a general function to each element of a vector. Using these tools, you can compute the number of words per comment.
+
+```
+
+```{r, results = 'hide', solution = TRUE, warning=F, message=F}
+# compute number of words
+Words <- sapply(comments$TextEmojiDeleted,function(x){length(unlist(strsplit(x," ")))})
+
+# compute average sentiment per word
+SentimentPerWord <- BasicSentimentSyu/Words
+
+# Note: There are other and more sophisticated methods to count words in the packages stringr, stringi, and tidytext. Before you use these, we recommend that you look at the rules they are using to define what is detected as a word and what isn't to make an informed decision about which method suits your needs best.
+
+```
+
+
+```{block, box.title = "Exercise 5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Compute comment sentiments using the `sentimentr` package. Compare the average comment sentiment per word from the `sentimentr` package with the one we computed before. Which one do you think is more trustworthy and why?
+
+```
+
+```{block, opts.label = "clues"}
+For a total sentiment score per comment, you first have to use the `get_sentences()` function and then use the `sentiment_by()` function on the sentences. To plot the two different scores against each other, you need to put them into the same dataframe with `cbind.data.frame()` first. You can then use the `ggplot2` package for plotting.
+
+```
+
+```{r, solution = TRUE, warning=F, message=F}
+# compute sentiment scores
+Sentences <- get_sentences(comments$TextEmojiDeleted)
+SentDF <- sentiment_by(Sentences)
+
+# show output
+SentDF[1:3,c(2,3,4)]
+
+# add ave_sentiment to comments dataframe
+comments <- cbind.data.frame(comments,ave_sentiment = SentDF$ave_sentiment)
+
+# plot SentimentPerWord vs. SentimentR
+library(ggplot2)
+ggplot(comments, aes(x=ave_sentiment, y=SentimentPerWord)) + 
+    geom_point(size =0.5) +
+    ggtitle("Basic Sentiment Scores vs. `SentimentR`") +
+    xlab("SentimentR Score") +
+    ylab("Syuzhet Score") +
+    geom_smooth(method=lm, se = TRUE)
+
+```
+
+```{block, solution = TRUE}
+`SentimentR` better at dealing with negations and better at detecting fixed expressions, adverbs, slang, and abbreviations.
+  
+However, how well a method performs on a given data set always depends how well the used dictionary fits the data as well as the complexity of the method (note that the fit between the sentiment scores for this video is better than for the Emoji Movie comments we saw on the slides).
+```
+
+
+```{block, box.title = "Exercise 6", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the emoji dictionary from the `lexicon` package and assign it to a new object called `EmojiSentiments`. Change the formatting of the dictionary entries and/or the Emoji column so that they are in the same format and can be matched. You can use the name `EmojiToks` for an intermediary variable if you need to create one. Afterwards, transform the `EmojiSentiment` dataframe to a `quanteda` dictionary object with the `as.dictionary()` function. Finally, use the `tokens_lookup()` function to create a new variable for emoji sentiments called `EmojiToksSent`.
+```
+
+```{block, opts.label = "clues"}
+To get an overview of all the available lexicons you can run `lexicon::available_data()`. The name of the emoji lexicon is "emojis_sentiment". Lexicons can be accessed with the command `lexicon::lexicon_name` usng the respective name of the lexicon you want to select. You can use the `paste0()` and `gsub()` functions to bring the formatting of the emoji column in line with the dictionary. Keep in mind that a valid dictionary needs appropriate column names; you can look this up in the help file for the `as.dictionary()` function.
+
+```
+
+```{r, solution = TRUE, warning=F, message=F}
+# load packages
+library(quanteda)
+
+# emoji sentiments
+EmojiSentiments <- lexicon::emojis_sentiment
+EmojiSentiments[1:5,c(1,2,4)]
+
+# changing formatting in dictionary
+EmojiNames <- paste0("emoji_",gsub(" ","",EmojiSentiments$name))
+EmojiSentiment <- cbind.data.frame(EmojiNames,
+                                   EmojiSentiments$sentiment,
+                                   EmojiSentiments$polarity)
+# naming columns
+names(EmojiSentiment) <- c("word","sentiment","valence")
+
+# see results
+EmojiSentiment[1:5,]
+
+# tokenizing the emoji-only column in the formatted dataframe
+EmojiToks <- tokens(tolower(as.character(unlist(comments$Emoji))))
+EmojiToks[1:5]
+
+# creating dictionary object
+EmojiSentDict <- as.dictionary(EmojiSentiment[,1:2])
+
+# replacing emojis with sentiment scores
+EmojiToksSent <- tokens_lookup(x = EmojiToks,
+                               dictionary = EmojiSentDict)
+EmojiToksSent[1:5]
+
+```
+
+
+```{block, box.title = "Exercise 7", box.body = list(fill = "white"), box.icon = "fa-star"}
+As a final exercise, plot the distribution of the `EmojiToksSent` variable.
+
+```
+
+```{block, opts.label = "clues"}
+You can use the simple `hist()` function from base `R` to create a histogram. Keep in mind though that you need to transform the tokens object back into a regular numeric vector. You can do this with the `unlist()` and `as.numeric()` functions.
+
+```
+
+```{r, results = 'hide', solution = TRUE, warning=F, message=F}
+hist(as.numeric(unlist(EmojiToksSent)),
+     main = "Distribution of Emoji Sentiment",
+     xlab = "Emoji Sentiment")
+
+```
