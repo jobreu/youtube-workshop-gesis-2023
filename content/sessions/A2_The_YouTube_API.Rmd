@@ -2,7 +2,7 @@
 title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "The YouTube API"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+date: "February 14th, 2023"
 presenter: Annika
 
 ---
@@ -359,7 +359,7 @@ woRkshoptools::include_picture("RateLimitReduction3.png")
 
 ## API Rate Limits
 
-- Currently (02.2022), you have a quota of **10.000** units per day
+- Currently (02.2023), you have a quota of **10.000** units per day
 
 - Each request (even invalid ones) costs a certain amount of units
 
@@ -438,6 +438,6 @@ class: center, middle
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2022/exercises/A2_The_Youtube_API_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A2_The_Youtube_API.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/A2_The_Youtube_API_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_A2_The_Youtube_API.html)

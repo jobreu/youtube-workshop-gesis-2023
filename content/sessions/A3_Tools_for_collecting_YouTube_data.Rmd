@@ -3,7 +3,7 @@ title: "Automatic Sampling and Analysis of YouTube Data"
 subtitle: "Tools for collecting YouTube data"
 author: "Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni"
 date: "February 14th, 2023"
-presenter: Everybody
+presenter: Annika
 
 ---
 
