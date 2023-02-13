@@ -718,4 +718,4 @@ class: center, middle
 
 # [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A4_Collecting_YouTube_data_with_R.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/Exercise_A4_Collecting_YouTube_data_with_R.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_A4_Collecting_YouTube_data_with_R.html)
