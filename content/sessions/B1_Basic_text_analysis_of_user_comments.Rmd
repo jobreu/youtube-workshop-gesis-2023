@@ -170,12 +170,6 @@ FormattedComments %>%
   select(Text, LikeCount, Published)
 ```
 
----
-
-## Most Popular Comments
-
-Which comments received the highest number of likes?
-
 .mini[
 ```{r comments-likes-output, echo = F}
 FormattedComments %>% 
