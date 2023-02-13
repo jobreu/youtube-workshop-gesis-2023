@@ -1,12 +1,11 @@
 ---
-title: 'Automatic Sampling and Analysis of YouTube Data'
+title: 'Exercises A4: The YouTube API'
 author: 'Johannes Breuer, Annika Deubel, & M. Rohangis Mohseni'
-date: 'Exercises for the YouTube API - Solutions'
+date: 'Automatic sampling and analysis of YouTube data, February 14-15, 2023'
 ---
 
-```{r child = "content/config/exercises_setup.Rmd"}
+```{r child = "./content/config/exercises_setup.Rmd"}
 ```
-
 
 
 ```{block, box.title = "Exercise 1", box.body = list(fill = "white"), box.icon = "fa-star"}

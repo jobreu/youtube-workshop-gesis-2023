@@ -1,2 +1,6 @@
-excercise_name,current
-demo_exercise.Rmd,f3a065657b90adaaa7a4e07f66369396
+excercise_name,previous,current
+Exercise_A2_The_YouTube_API.Rmd,...,57ad17c690725dda32691ba46b18d324
+Exercise_A4_Collecting_YouTube_data_with_R.Rmd,...,f30a459e6716cf61c1b8e3fac20b69af
+Exercise_A5_Processing_and_cleaning_user_comments.Rmd,...,a05f7195e5ab2d9b0a7dd66d9aa16a24
+Exercise_B1_Basic_text_analysis_of_user_comments.Rmd,...,8031f204fe86c446dd8d2badb219c875
+Exercise_B2_Sentiment_analysis_of_user_comments.Rmd,...,b9ae8a161dc39772728a70255623ef57
