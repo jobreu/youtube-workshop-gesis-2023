@@ -35,10 +35,10 @@ For the exercises as well as for "coding along" with the slides, access to the *
 
 | Time | Topic | Slides | Exercises | Solutions |
 | ---: | :---- | :----: | :-------: | :-------: |
-| 09:00 - 10:00 | Introduction | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A1_Intro.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/1_introduction.pdf) | - | - |
+| 09:00 - 10:00 | Introduction | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A1_Intro.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/A1_introduction.pdf) | - | - |
 | 10:00 - 11:00 | The YouTube API | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A2_The_YouTube_API.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/A2_The_YouTube_API.pdf) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/A2_The_Youtube_API_exercises_question.html) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/A2_The_Youtube_API_exercises_solution.html) |
 | 11:00 - 11:15 | *Coffee Break* | - | - | - |
-| 11:15 - 12:15 | Tools for collecting YouTube data | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A3_Tools_for_collecting_YouTube_data.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/AA3_Tools_for_collecting_YouTube_data.pdf) | - | - |
+| 11:15 - 12:15 | Tools for collecting YouTube data | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A3_Tools_for_collecting_YouTube_data.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/A3_Tools_for_collecting_YouTube_data.pdf) | - | - |
 | 12:15 - 13:15 | *Lunch Break* | - | - | - |
 | 13:15 - 14:45 | Collecting YouTube data with R | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/A4_Collecting_YouTube_data_with_R.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/A4_Collecting_YouTube_data_with_R.pdf) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A4_Collecting_YouTube_data_with_R.html) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/Exercise_A4_Collecting_YouTube_data_with_R.html) |
 | 14:45 - 15:00 | *Coffee Break* | - | - | - |
