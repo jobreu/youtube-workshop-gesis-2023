@@ -779,4 +779,4 @@ class: center, middle
 
 # [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B2_Sentiment_analysis_of_user_comments.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2022/solutions/Exercise_B2_Sentiment_analysis_of_user_comments.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B2_Sentiment_analysis_of_user_comments.html)
