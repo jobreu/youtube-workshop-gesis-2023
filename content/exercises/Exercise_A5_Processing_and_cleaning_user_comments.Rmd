@@ -123,15 +123,15 @@ The `qdapRegex` package offers many pre-built functions for detecting, removing,
 library(qdapRegex)
 
 # check column
-Selection$textOriginal[278:288]
+Selection$textOriginal[396:406]
 
 # extract hyperlinks
 Links <- rm_url(Selection$textOriginal, extract = TRUE)
-Links[278:288]
+Links[396:406]
 
 # remove hyperlinks
 LinksDel <- rm_url(Selection$textOriginal)
-LinksDel[278:288]
+LinksDel[396:406]
 
 ```
 
@@ -178,8 +178,8 @@ EmojiList[1:10,c(1,3,4)]
 TextEmoDel <- ji_replace_all(LinksDel,"")
 
 # Check content of new vectors
-LinksDel[c(461,471,696)]
-TextEmoDel[c(461,471,696)]
+LinksDel[c(604,650,934)]
+TextEmoDel[c(604,650,934)]
 
 ```
 
@@ -235,8 +235,8 @@ for (i in 1:dim(EmojiList)[1]) {
 }
 
 # check results
-LinksDel[c(461,471,696)]
-TextEmoRep[c(461,471,696)]
+LinksDel[c(604,650,934)]
+TextEmoRep[c(604,650,934)]
 
 ```
 
@@ -259,9 +259,9 @@ Emoji <- sapply(TextEmoRep,ExtractEmoji)
 names(Emoji) <- NULL
 
 # check results
-LinksDel[c(461,471,696)]
-TextEmoRep[c(461,471,696)]
-Emoji[c(461,471,696)]
+LinksDel[c(604,650,934)]
+TextEmoRep[c(604,650,934)]
+Emoji[c(604,650,934)]
 
 ```
 
