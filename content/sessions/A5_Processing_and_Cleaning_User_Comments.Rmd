@@ -147,7 +147,7 @@ From the *YouTube* Data API documentation:
 
 Now, we can select only those variables that we need for our analysis.
 
-```{r subset, cache=TRUE}
+```{r subset}
 Selection <- subset(comments,select = -c(authorProfileImageUrl,
                                          authorChannelUrl,
                                          authorChannelId.value,
@@ -532,7 +532,7 @@ Next, we want to integrate all of them into our dataframe.
 We can now combine our dataframe with the additional variables we have created. **NB**: because we sometimes have more than two links or two emojis per comment, we need to use the `I()` function so we can put them in the dataframe "as is" (for later analyses, we will have to unlist these columns rowwise if we want to use them). 
 
 ```{r combine}
-df <- cbind.data.frame(Selection$ideoId,
+df <- cbind.data.frame(Selection$videoId,
                        Selection$authorDisplayName,
                        Selection$textOriginal,
                        TextEmoRep,
