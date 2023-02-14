@@ -88,16 +88,11 @@ to your local machine. It is implemented in many different libraries, such as [c
 
 ## Screen Scraping - Examples
 
-- Via the console in Linux or MacOS (saves html to a file) <br>
+- Via the console in Windows, Linux or MacOS (saves html to a file) <br>
 <br>
 `curl "https://www.youtube.com/watch?v=1aheRpmurAo/" > YT.html`
 <br>
-<br>
 
-- [Online](https://reqbin.com/curl), using the code from above <br>
-<br>
-`curl "https://www.youtube.com/watch?v=1aheRpmurAo/"`
-<br>
 <br>
 - In `R` <br>
 <br>
@@ -171,14 +166,11 @@ woRkshoptools::include_picture("YouTube_schematic2_harvesting.png")
 
 - From the console <br> (API Key needs to be added before execution) <br>
 ```
-curl "https://www.googleapis.com
+curl https://www.googleapis.com
         /youtube/v3/search?
         part=snippet&q=Brexit&
-        key=INSERT-API-KEY-HERE"
+        key=INSERT-API-KEY-HERE
 ```
-
-- [Online](https://reqbin.com/curl), using code from above (API Key needs to be added before execution) <br>
-<br>
 
 - In `R` (API Key needs to be added before execution, data needs to be converted to JSON format) <br>
 ```
@@ -217,10 +209,8 @@ If you can, use an API, if you must, use screen scraping instead.
 
 ---
 
-## Platform APIs
+## YouTube API
 
-- To find an API for a given website, [Programmable Web](https://www.programmableweb.com/category/all/apis) is
-  a good starting point
 
 - Fortunately, *YouTube* has its own, well-documented APIs
   that developers can use to interact with their database (most *Google* services do)
@@ -434,6 +424,6 @@ class: center, middle
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A2_The_Youtube_API.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_A2_The_YouTube_API.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_A2_The_Youtube_API.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_A2_The_YouTube_API.html)

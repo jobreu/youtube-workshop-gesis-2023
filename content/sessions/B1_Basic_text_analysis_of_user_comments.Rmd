@@ -608,6 +608,6 @@ head(n = 10) %>%
 
 class: center, middle
 
-## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B1_Basic_text_analysis.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+## [Exercise](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B1_Basic_text_analysis_of_user_comments.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B1_Basic_text_analysis.html)
+## [Solutions](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B1_Basic_text_analysis_of_user_comments.html)
