@@ -151,7 +151,6 @@ Now, we can select only those variables that we need for our analysis.
 Selection <- subset(comments,select = -c(authorProfileImageUrl,
                                          authorChannelUrl,
                                          authorChannelId.value,
-                                         videoId,
                                          canRate,
                                          viewerRating,
                                          moderationStatus))
@@ -533,7 +532,8 @@ Next, we want to integrate all of them into our dataframe.
 We can now combine our dataframe with the additional variables we have created. **NB**: because we sometimes have more than two links or two emojis per comment, we need to use the `I()` function so we can put them in the dataframe "as is" (for later analyses, we will have to unlist these columns rowwise if we want to use them). 
 
 ```{r combine}
-df <- cbind.data.frame(Selection$authorDisplayName,
+df <- cbind.data.frame(Selection$ideoId,
+                       Selection$authorDisplayName,
                        Selection$textOriginal,
                        TextEmoRep,
                        TextEmoDel,
@@ -556,7 +556,8 @@ As a final step, we can give the columns appropriate names and save the datafram
 ```{r rename}
 
 # set column names
-names(df) <- c("Author",
+names(df) <- c("VideoID",
+               "Author",
                "Text",
                "TextEmojiReplaced",
                "TextEmojiDeleted",

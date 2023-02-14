@@ -26,7 +26,7 @@ colnames(comments)
 ```
 
 ```{block, box.title = "Exercise 2", box.body = list(fill = "white"), box.icon = "fa-star"}
-As a first processing step, we want to remove the following variables: `authorProfileImageUrl`, `authorChannelUrl`, `authorChannelUrl.value`,`video_id`,`canRate`, `viewerRating`, `moderationStatus`. Create a new dataframe called `Selection` containing only the remaining variables.
+As a first processing step, we want to remove the following variables: `authorProfileImageUrl`, `authorChannelUrl`, `authorChannelId.value`,`canRate`, `viewerRating`, `moderationStatus`. Create a new dataframe called `Selection` containing only the remaining variables.
 ```
 
 ```{block, opts.label = "clues", box.icon = "fa-lightbulb"}

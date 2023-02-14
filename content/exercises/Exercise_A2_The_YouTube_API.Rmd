@@ -57,7 +57,7 @@ Construct and make an API call (either in your console, your browser or in `R`) 
 
 - Get information from the items in the following *YouTube* playlist: https://www.youtube.com/playlist?list=PLv4AV-dc1b8UaR3BP0ldhTcy9p0ysTEwy
 
-- Request a _snippet_ from containing information about playlist items
+- Request a _snippet_ containing information about playlist items
 
 - Limit your maximum number of results to 10 
 ```

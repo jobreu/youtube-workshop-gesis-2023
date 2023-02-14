@@ -36,12 +36,12 @@ yt_parse <- function(data, package = "tuber"){
   # enable use with comments collected using vosonSML
   
   if (package == "vosonSML"){
-    data <- data[,c("AuthorDisplayName","Comment","LikeCount","PublishedAt","UpdatedAt","ParentID","CommentID")]
-    names(data) <- c("authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")
+    data <- data[,c("VideoID","AuthorDisplayName","Comment","LikeCount","PublishedAt","UpdatedAt","ParentID","CommentID")]
+    names(data) <- c("videoId","authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")
   } else {
     
   # tuber data: only keep the relevant columns
-  data <- data[,c("authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")]
+  data <- data[,c("videoId","authorDisplayName","textOriginal","likeCount","publishedAt","updatedAt","parentId","id")]
 
   }
   
@@ -55,6 +55,7 @@ yt_parse <- function(data, package = "tuber"){
   }
   
   # convert dataframe columns to proper types
+  data$videoId <- as.character(data$videoId)
   data$authorDisplayName <- as.character(data$authorDisplayName)
   data$textOriginal <- as.character(data$textOriginal)
   data$likeCount <- as.numeric(data$likeCount)
@@ -82,8 +83,8 @@ yt_parse <- function(data, package = "tuber"){
   Links <- I(Links)
 
   #### Combine everything into one dataframe
-  df <- cbind.data.frame(data$authorDisplayName,data$textOriginal,TextEmoRep,TextEmoDel,Emoji,data$likeCount,Links,data$publishedAt,data$updatedAt,data$parentId,data$id, stringsAsFactors = FALSE)
-  names(df) <- c("Author","Text","TextEmojiReplaced","TextEmojiDeleted","Emoji","LikeCount","URL","Published","Updated","ParentId","CommentID")
+  df <- cbind.data.frame(data$videoId,data$authorDisplayName,data$textOriginal,TextEmoRep,TextEmoDel,Emoji,data$likeCount,Links,data$publishedAt,data$updatedAt,data$parentId,data$id, stringsAsFactors = FALSE)
+  names(df) <- c("VideoID","Author","Text","TextEmojiReplaced","TextEmojiDeleted","Emoji","LikeCount","URL","Published","Updated","ParentId","CommentID")
   row.names(df) <- NULL
 
   #### return results
