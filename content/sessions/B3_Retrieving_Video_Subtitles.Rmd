@@ -60,7 +60,7 @@ library(tuber)
 caption_list <- list_caption_tracks(video_id = "nI_OfkQOG6Q")
 ```
 
-*Note*: The `tuber` function `list_caption_tracks()` has an API quota cost ~ 50.
+*Note*: The `tuber` function `list_caption_tracks()` has an API quota cost of ~ 50.
 
 ---
 
@@ -136,6 +136,15 @@ Now the text is ready for further analysis (see the previous sessions for exampl
 
 ---
 
+## Time for a Short Live Demo
+
+![plot](../../content/img/youtubesubtitles.jpg)
+.small[
+**Note**: You can find the code for collecting and processing subtitles for *YouTube* videos in the `YouTubeSubtitles.R` file in the folder `content\R` within the workshop materials.
+]
+
+---
+
 ## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
 
 You can also manually retrieve subtitles with the Chrome plugin [YouTube Summary with ChatGPT](https://chrome.google.com/webstore/detail/youtube-summary-with-chat/nmmicjeknamkfloonkhhcjmomieiodli/related)
@@ -167,15 +176,6 @@ Of course, before you can use the function, you need to create at least one `.tx
 ## Retrieving Video Subtitles with `YouTube Summary with ChatGPT`
 
 As a side note: You could, potentially, automate the transcript collection via a web scraping approach using [`RSelenium`](https://docs.ropensci.org/RSelenium/) (for an introduction to `RSelenium`, see, e.g., this [tutorial](https://appsilon.com/webscraping-dynamic-websites-with-r/)). Note, however, that we have not tested this and using web scraping with a browser plugin may be tricky.
-
----
-
-## Time for a Short Live Demo
-
-![plot](../../content/img/youtubesubtitles.jpg)
-.small[
-**Note**: You can find the code for collecting and processing subtitles for *YouTube* videos in the `YouTubeSubtitles.R` file in the folder `content\R` within the workshop materials.
-]
 
 ---
 
