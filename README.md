@@ -51,9 +51,9 @@ For the exercises as well as for "coding along" with the slides, access to the *
 | 09:00 - 10:15 | Basic text analysis of user comments | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/B1_Basic_text_analysis_of_user_comments.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/B1_Basic_text_analysis_of_user_comments.pdf) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B1_Basic_text_analysis_of_user_comments.html) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B1_Basic_text_analysis_of_user_comments.html) |
 | 10:15 - 10:30 | *Coffee Break* | - | - | - |
 | 11:15 - 12:15 | Sentiment analysis of user comments | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/B2_Sentiment_Analysis_of_User_Comments.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/B2_Sentiment_Analysis_of_User_Comments.pdf) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/exercises/Exercise_B2_Sentiment_analysis_of_user_comments.html) | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/solutions/Exercise_B2_Sentiment_analysis_of_user_comments.html) |
-| 12:00 - 13:00 | *Lunch Break* | - | - | - |
-| 13:00 - 14:00 | Excursus: Retrieving video subtitles | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/B3_Retrieving_Video_Subtitles.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/B3_Retrieving_Video_Subtitles.pdf) | - | - |
-| 14:00 - 14:15 | *Coffee Break* | - | - | - |
+| 12:15 - 13:15 | *Lunch Break* | - | - | - |
+| 13:15 - 14:45 | Excursus: Retrieving video subtitles | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/B3_Retrieving_Video_Subtitles.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/B3_Retrieving_Video_Subtitles.pdf) | - | - |
+| 14:45 - 15:00 | *Coffee Break* | - | - | - |
 | 15:00 - 16:30 | Recap, outlook, practice | [HTML](https://jobreu.github.io/youtube-workshop-gesis-2023/slides/B4_Recap_Outlook_Practice.html), [PDF](https://raw.githubusercontent.com/jobreu/youtube-workshop-gesis-2023/main/slides/B4_Recap_Outlook_Practice.pdf) | - | - |
 
 ## Acknowledgements
